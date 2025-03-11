@@ -1,0 +1,234 @@
+.dashboard {
+  padding: var(--spacing-lg) 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.dashboardHeader {
+  margin-bottom: var(--spacing-xl);
+}
+
+.dashboardTitle {
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text);
+}
+
+.welcomeMessage {
+  color: var(--color-text-light);
+  font-size: var(--font-size-lg);
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.dashboardCard {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.dashboardCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cardLink {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cardLink:hover {
+  text-decoration: underline;
+}
+
+.cardContent {
+  padding: var(--spacing-lg);
+  min-height: 200px;
+}
+
+.emptyMessage {
+  color: var(--color-text-light);
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+}
+
+/* Estilos para listas */
+.partidosList,
+.ligasList,
+.torneosList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.partidoItem,
+.ligaItem,
+.torneoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.partidoItem:last-child,
+.ligaItem:last-child,
+.torneoItem:last-child {
+  border-bottom: none;
+}
+
+.partidoInfo,
+.ligaInfo,
+.torneoInfo {
+  flex: 1;
+}
+
+.partidoFecha,
+.ligaTemporada,
+.torneoFecha {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.partidoVs {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.ligaNombre,
+.torneoNombre {
+  font-size: var(--font-size-md);
+  margin: 0 0 var(--spacing-xs);
+  color: var(--color-text);
+}
+
+.partidoButton,
+.ligaButton,
+.torneoButton {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.partidoButton:hover,
+.ligaButton:hover,
+.torneoButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Acciones rápidas */
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+}
+
+.quickActionButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: #f8f9fa;
+  color: var(--color-text);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-weight: 500;
+  text-align: center;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-border);
+}
+
+.quickActionButton:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Loading */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorMessage {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .partidoItem,
+  .ligaItem,
+  .torneoItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .partidoAcciones,
+  .ligaAcciones,
+  .torneoAcciones {
+    margin-top: var(--spacing-sm);
+    align-self: flex-end;
+  }
+} 
