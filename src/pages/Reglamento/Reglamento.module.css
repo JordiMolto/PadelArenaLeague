@@ -1,0 +1,47 @@
+.profileContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+}
+
+.profileCard {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.profileTitle {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2em;
+}
+
+.reglamentoContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.reglamentoContent section {
+  margin-bottom: 2.5rem;
+}
+
+.reglamentoContent h2 {
+  color: #444;
+  font-size: 1.8em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #eee;
+}
+
+.reglamentoContent p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 1.1em;
+} 
