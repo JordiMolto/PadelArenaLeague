@@ -61,6 +61,17 @@ const Noticias = () => {
   const noticiasDestacadas = noticiasFiltradas.filter(n => n.destacada);
   const noticiasRegulares = noticiasFiltradas.filter(n => !n.destacada);
 
+  const handleCategoriaClick = (categoriaId) => {
+    // Si se hace clic en la categoría que ya está activa Y NO es 'todas'
+    if (categoriaId === categoriaActiva && categoriaId !== 'todas') {
+      // Desactivarla y volver a 'todas'
+      setCategoriaActiva('todas');
+    } else {
+      // Si no, simplemente activar la categoría clicada
+      setCategoriaActiva(categoriaId);
+    }
+  };
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
@@ -83,7 +94,7 @@ const Noticias = () => {
                 <button
                   key={cat.id}
                   className={`${styles.categoriaBtn} ${categoriaActiva === cat.id ? styles.activo : ''}`}
-                  onClick={() => setCategoriaActiva(cat.id)}
+                  onClick={() => handleCategoriaClick(cat.id)}
                 >
                   {cat.nombre}
                 </button>

@@ -10,16 +10,24 @@
 
 /* Hero Section */
 .hero {
-  padding: var(--spacing-xxl) 0;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  padding: var(--spacing-xl) 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   color: white;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
 }
 
 .hero .container {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-lg);
 }
 
 .heroContent {
@@ -27,7 +35,7 @@
 }
 
 .heroTitle {
-  font-size: 3rem;
+  font-size: 48px;
   font-weight: 700;
   margin-bottom: var(--spacing-md);
   line-height: 1.2;
@@ -58,8 +66,9 @@
 }
 
 .primaryButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-primary-dark);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .secondaryButton {
@@ -75,8 +84,7 @@
 }
 
 .secondaryButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-3px);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .heroImage {
@@ -93,10 +101,12 @@
   border-radius: var(--border-radius-lg);
   position: relative;
   overflow: hidden;
+  background-image: url("../../assets/images/home/header-image.png");
+  background-size: cover;
+  background-position: center;
 }
 
 .imagePlaceholder::before {
-  content: '🎾 Imagen de Pádel';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -108,7 +118,7 @@
 
 /* Features Section */
 .features {
-  padding: var(--spacing-xxl) 0;
+  padding: 100px 0;
   background-color: var(--color-background);
 }
 
@@ -121,12 +131,12 @@
 }
 
 .sectionTitle::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
+  width: 100px;
   height: 3px;
   background-color: var(--color-primary);
 }
@@ -142,23 +152,24 @@
   border-radius: var(--border-radius-md);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .featureCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .featureIcon {
-  font-size: 2.5rem;
+  font-size: 40px;
   margin-bottom: var(--spacing-md);
 }
 
 .featureTitle {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 .featureDescription {
@@ -168,8 +179,8 @@
 
 /* How It Works Section */
 .howItWorks {
-  padding: var(--spacing-xxl) 0;
-  background-color: #f0f7ff;
+  padding: 80px 0;
+  background-color: var(--color-background);
 }
 
 .steps {
@@ -186,7 +197,7 @@
 }
 
 .step:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 40px;
   right: -50px;
@@ -197,8 +208,8 @@
 }
 
 .stepNumber {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background-color: var(--color-primary);
   color: white;
   border-radius: 50%;
@@ -222,9 +233,13 @@
 
 /* CTA Section */
 .cta {
-  padding: var(--spacing-xxl) 0;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
-  color: white;
+  padding: 100px 0;
+  /* background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-dark) 100%
+  );
+  color: white; */
   text-align: center;
 }
 
@@ -253,8 +268,9 @@
 }
 
 .ctaButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-secondary-dark);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive */
@@ -265,7 +281,7 @@
   }
 
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 40px;
   }
 
   .heroSubtitle {
@@ -289,10 +305,10 @@
 
 @media (max-width: 768px) {
   .heroTitle {
-    font-size: 2rem;
+    font-size: 32px;
   }
 
   .featureGrid {
     grid-template-columns: 1fr;
   }
-} 
+}

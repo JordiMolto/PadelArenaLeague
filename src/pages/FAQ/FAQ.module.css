@@ -1,7 +1,8 @@
 .profileContainer {
-  padding: 2rem;
+  padding: 32px;
   max-width: 1200px;
   margin: 0 auto;
+  /* background-color: var(--color-surface); */ /* Eliminado para que tome el fondo del body */
 }
 
 .container {
@@ -9,17 +10,17 @@
 }
 
 .profileCard {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  background: var(--color-background);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
 }
 
 .profileTitle {
   text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
-  font-size: 2em;
+  color: var(--color-text);
+  margin-bottom: 32px;
+  font-size: var(--font-size-xxl);
 }
 
 .faqContainer {
@@ -28,62 +29,62 @@
 }
 
 .categoriaContainer {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .categoriaTitle {
-  color: #2c3e50;
-  font-size: 1.5em;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #eee;
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-xl);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .preguntasContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .faqItem {
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.4s;
 }
 
 .faqItem:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .faqButton {
   width: 100%;
-  padding: 1rem;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
+  background: var(--color-background);
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.4s ease;
+  transition: background-color 0.4s;
 }
 
 .faqButton:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-accent);
 }
 
 .pregunta {
-  font-size: 1.1em;
-  color: #444;
+  font-size: 18px;
+  color: var(--color-text);
   flex: 1;
-  padding-right: 1rem;
+  padding-right: 16px;
 }
 
 .arrow {
-  font-size: 1.5em;
-  color: #666;
-  transition: transform 0.4s ease;
+  font-size: 24px;
+  color: var(--color-text-light);
+  transition: transform 0.4s;
   width: 24px;
   height: 24px;
   display: flex;
@@ -97,42 +98,42 @@
 
 .respuestaContainer {
   overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  transition: max-height 0.4s, padding 0.4s;
   max-height: 0;
-  padding: 0 1rem;
-  background-color: #f8f9fa;
+  padding: 0 16px;
+  background-color: var(--color-background);
 }
 
 .faqItem.active .respuestaContainer {
-  padding: 1rem;
-  border-top: 1px solid #eee;
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
 }
 
 .respuesta {
-  color: #666;
+  color: var(--color-text-light);
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .profileContainer {
-    padding: 1rem;
+    padding: 16px;
   }
 
   .profileCard {
-    padding: 1rem;
+    padding: 16px;
   }
 
   .categoriaTitle {
-    font-size: 1.3em;
+    font-size: 18px;
   }
 
   .pregunta {
-    font-size: 1em;
+    font-size: var(--font-size-sm);
   }
 
   .respuesta {
-    font-size: 0.95rem;
+    font-size: 13px;
   }
-} 
+}

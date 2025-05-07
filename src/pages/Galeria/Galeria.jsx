@@ -48,6 +48,17 @@ const Galeria = () => {
     ? imagenes 
     : imagenes.filter(img => img.categoria === filtroActivo);
 
+  const handleFiltroClick = (filtroId) => {
+    // Si se hace clic en el filtro que ya está activo Y NO es 'todos'
+    if (filtroId === filtroActivo && filtroId !== 'todos') {
+      // Desactivarlo y volver a 'todos'
+      setFiltroActivo('todos');
+    } else {
+      // Si no, simplemente activar el filtro clicado
+      setFiltroActivo(filtroId);
+    }
+  };
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
@@ -60,7 +71,7 @@ const Galeria = () => {
               <button
                 key={cat.id}
                 className={`${styles.filtroBtn} ${filtroActivo === cat.id ? styles.activo : ''}`}
-                onClick={() => setFiltroActivo(cat.id)}
+                onClick={() => handleFiltroClick(cat.id)}
               >
                 {cat.nombre}
               </button>

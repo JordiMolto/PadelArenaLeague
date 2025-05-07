@@ -1,0 +1,685 @@
+/* src/pages/Ligas/Ligas.module.css */
+
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f7f6; /* Un gris muy claro para el fondo general */
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para el contenido principal */
+    margin: 0 auto;
+}
+
+.profileCard {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centrar texto en la tarjeta inicialmente */
+}
+
+.pageTitle {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.pageDescription {
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Estilos para listas */
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacio entre elementos de la lista */
+    margin-bottom: 30px;
+}
+
+.listItem {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    text-align: left; /* Alinear texto a la izquierda para items */
+}
+
+.listItem h2 {
+    color: #0056b3; /* Un azul para los títulos de los items */
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Estilos para botones */
+.primaryButton,
+.viewButton,
+.backButton {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    margin: 5px;
+}
+
+.primaryButton {
+    background-color: #007bff; /* Azul primario */
+    color: white;
+}
+
+.primaryButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.viewButton {
+    background-color: #28a745; /* Verde para ver detalles */
+    color: white;
+}
+
+.viewButton:hover {
+    background-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+.backButton {
+    background-color: #6c757d; /* Gris para volver */
+    color: white;
+}
+
+.backButton:hover {
+    background-color: #545b62;
+    transform: translateY(-2px);
+}
+
+/* Estilos para formularios */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left; /* Alinear etiquetas e inputs a la izquierda */
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.formInput,
+.form select { /* Incluir select en los estilos */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.formInput:focus,
+.form select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.formActions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end; /* Alinear botones del formulario a la derecha */
+    gap: 10px;
+}
+
+/* Mensajes de error y éxito */
+.errorMessage {
+    color: #D8000C; /* Rojo oscuro */
+    background-color: #FFD2D2; /* Rojo claro */
+    border: 1px solid #D8000C;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.successMessage {
+    color: #270; /* Verde oscuro */
+    background-color: #DFF2BF; /* Verde claro */
+    border: 1px solid #270;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Detalles de Liga - Subsecciones */
+.subSections {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.subSections section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #fdfdfd;
+    border-left: 4px solid #007bff; /* Borde izquierdo azul para destacar */
+}
+
+.subSections h2 {
+    color: #0056b3;
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+/* Estilos para la sección de Ligas Disponibles */
+.ligasDisponiblesContainer {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.subPageTitle { /* Para títulos H2 dentro de la card */
+  font-size: 1.8em;
+  color: #333;
+  margin-top: 30px; /* Espacio antes del título de sección */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.ligaDisponibleItem {
+  background-color: #f9f9f9;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.ligaDisponibleItem h3 {
+  color: #0056b3;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+}
+
+.ligaDisponibleItem p {
+  font-size: 0.95em;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+/* Estilos adicionales para el formulario */
+.formRow {
+  display: flex;
+  gap: 20px; /* Espacio entre campos en la misma fila */
+  flex-wrap: wrap; /* Para que se ajusten en pantallas pequeñas */
+}
+
+.formRow .formGroup {
+  flex: 1; /* Para que los grupos de formulario compartan el espacio */
+  min-width: 250px; /* Ancho mínimo para evitar que se aprieten demasiado */
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre cada checkbox item */
+  margin-top: 5px;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el checkbox y su label */
+}
+
+.checkboxItem input[type="checkbox"] {
+  width: auto; /* Resetear el width para checkboxes */
+  margin-right: 5px; /* Pequeño margen */
+  height: 1em; /* Alinear mejor con el texto */
+  accent-color: var(--color-primary); /* Para que el check use el color primario */
+}
+
+.checkboxItem label {
+  font-weight: normal; /* Resetear el bold de los labels de formGroup */
+  color: #555;
+  margin-bottom: 0; /* Resetear margen inferior */
+}
+
+/* Responsive para .formRow */
+@media (max-width: 600px) {
+  .formRow {
+    flex-direction: column; /* Apilar campos en pantallas más pequeñas */
+    gap: 15px;
+  }
+  .formRow .formGroup {
+    min-width: 100%; /* Ocupar todo el ancho */
+  }
+}
+
+/* Estilos para la página de Clasificación de Ligas */
+.filtrosContainerClasificacion {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Para que los filtros se ajusten en pantallas pequeñas */
+  align-items: flex-end; /* Alinear items en la base para que los labels y inputs se vean bien */
+}
+
+.filtroItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1; /* Por defecto, que ocupen espacio equitativo */
+  min-width: 180px; /* Ancho mínimo para cada filtro */
+}
+
+.filtroItem label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.filtroItem input[type="text"],
+.filtroItem select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.95em;
+  width: 100%; /* Ocupar todo el ancho del .filtroItem */
+  box-sizing: border-box; /* Importante para que padding no aumente el width total */
+}
+
+.filtroItemFullWidth { /* Para el selector de liga que ocupe más espacio */
+  composes: filtroItem; /* Hereda estilos de filtroItem */
+  flex-grow: 2; /* Que ocupe el doble de espacio si es posible */
+  min-width: 300px;
+}
+.filtroItemSmall { /* Para el buscador dentro de la tabla */
+  composes: filtroItem;
+  max-width: 300px; /* Limitar el ancho del buscador */
+  margin-bottom: 15px; /* Espacio antes de la tabla */
+}
+
+
+.clasificacionSection {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.tablaResponsiveContainer {
+  width: 100%;
+  overflow-x: auto; /* Permite scroll horizontal en tablas grandes */
+  margin-top: 10px;
+}
+
+.tablaClasificacion {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.tablaClasificacion th,
+.tablaClasificacion td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap; /* Evitar que el texto se rompa en varias líneas fácilmente */
+}
+
+.tablaClasificacion th {
+  background-color: #e9ecef; /* Un gris claro para los encabezados */
+  color: #333;
+  font-weight: bold;
+}
+
+.tablaClasificacion tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Filas alternas con un color sutil */
+}
+
+.tablaClasificacion tbody tr:hover {
+  background-color: #f1f1f1; /* Hover para filas */
+}
+
+/* Alineación específica para algunas columnas */
+.tablaClasificacion th:first-child, /* Posición */
+.tablaClasificacion td:first-child,
+.tablaClasificacion th:nth-child(5), /* Pts */
+.tablaClasificacion td:nth-child(5),
+.tablaClasificacion th:nth-child(6), /* PJ */
+.tablaClasificacion td:nth-child(6),
+.tablaClasificacion th:nth-child(7), /* PG */
+.tablaClasificacion td:nth-child(7),
+.tablaClasificacion th:nth-child(8), /* PP */
+.tablaClasificacion td:nth-child(8),
+.tablaClasificacion th:nth-child(9), /* SF */
+.tablaClasificacion td:nth-child(9),
+.tablaClasificacion th:nth-child(10), /* SC */
+.tablaClasificacion td:nth-child(10),
+.tablaClasificacion th:nth-child(11), /* +/- Sets */
+.tablaClasificacion td:nth-child(11),
+.tablaClasificacion th:nth-child(12), /* JF */
+.tablaClasificacion td:nth-child(12),
+.tablaClasificacion th:nth-child(13), /* JC */
+.tablaClasificacion td:nth-child(13),
+.tablaClasificacion th:nth-child(14),
+.tablaClasificacion td:nth-child(14) { /* +/- Jgs Corregido aquí */
+  text-align: center;
+}
+
+
+.noResultsClasificacion,
+.infoMessage {
+  text-align: center;
+  color: #555;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Ajustes responsivos para filtros y tabla */
+@media (max-width: 768px) {
+  .filtrosContainerClasificacion {
+    flex-direction: column;
+    align-items: stretch; /* Que los filtros ocupen todo el ancho */
+  }
+  .filtroItem, .filtroItemFullWidth, .filtroItemSmall {
+    min-width: 100%; /* Ocupar todo el ancho en móvil */
+    max-width: 100%;
+  }
+
+  .tablaClasificacion th,
+  .tablaClasificacion td {
+    padding: 8px 6px; /* Menos padding en móvil */
+    font-size: 0.85em; /* Fuente más pequeña */
+  }
+}
+
+/* Estilos para la página de Equipos de Ligas */
+
+.filtrosContainerEquipos {
+  composes: filtrosContainerClasificacion; /* Hereda estilos base de los filtros de clasificación */
+  /* Podemos añadir o sobreescribir estilos específicos si es necesario */
+  margin-bottom: 30px;
+}
+
+.equiposGrid {
+  display: grid;
+  /* Intentamos 7 columnas, ajustando con minmax para responsividad */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Ajusta minmax según necesites */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.tarjetaEquipo {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.tarjetaEquipo:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.equipoIcono {
+  font-size: 3em; /* Tamaño grande para el icono del equipo */
+  color: var(--color-primary); /* Usar color primario */
+  margin-bottom: 10px;
+  display: block;
+}
+
+.tarjetaEquipo h3 {
+  font-size: 1.1em;
+  color: #333;
+  margin: 10px 0 5px 0;
+}
+
+.tarjetaEquipo p {
+  font-size: 0.9em;
+  color: #666;
+  margin: 0;
+}
+
+.ligaEnTarjeta {
+  font-size: 0.8em;
+  color: #888; /* Un gris más claro para el nombre de la liga */
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* Estilos para la Vista de Detalle del Equipo */
+.mb3 { /* Utilidad de margen inferior si no la tienes globalmente */
+  margin-bottom: var(--spacing-md); /* O 16px o 20px */
+}
+
+.detalleEquipoHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.detalleEquipoIcono {
+  font-size: 6em; /* Icono aún más grande para el detalle */
+  color: var(--color-primary-dark);
+}
+
+.tablaEstadisticasEquipo {
+  width: 100%;
+  max-width: 500px; /* Limitar ancho para legibilidad */
+  margin: 20px auto; /* Centrar tabla */
+  border-collapse: collapse;
+}
+
+.tablaEstadisticasEquipo td {
+  border: 1px solid #eee;
+  padding: 10px;
+  font-size: 0.95em;
+}
+
+.tablaEstadisticasEquipo td:first-child {
+  font-weight: bold;
+  background-color: #f8f9fa;
+  width: 40%; /* Ancho para la columna de etiquetas */
+}
+
+.componentesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 2-4 tarjetas de jugador por fila */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.tarjetaJugador {
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.jugadorIcono {
+  font-size: 2.5em; /* Icono del jugador */
+  color: #6c757d; /* Gris */
+  margin-bottom: 8px;
+  display: block;
+}
+
+.tarjetaJugador h3 {
+  font-size: 1.1em;
+  color: #333;
+  margin: 8px 0 5px 0;
+}
+
+.tarjetaJugador p {
+  font-size: 0.9em;
+  color: #555;
+  margin: 3px 0;
+}
+
+.emailLinkJugador {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.emailLinkJugador:hover {
+  text-decoration: underline;
+}
+
+/* Ajustes Responsivos para el Grid de Equipos */
+@media (max-width: 1200px) {
+  .equiposGrid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* 5-6 columnas */
+  }
+}
+@media (max-width: 992px) {
+  .equiposGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 4-5 columnas */
+  }
+}
+@media (max-width: 768px) {
+  .equiposGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 3 columnas */
+  }
+   .componentesGrid {
+     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 2-3 tarjetas */
+   }
+}
+@media (max-width: 576px) {
+  .equiposGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 2 columnas */
+  }
+  .componentesGrid {
+     grid-template-columns: 1fr; /* 1 tarjeta por fila */
+   }
+   .tablaEstadisticasEquipo {
+     max-width: 100%;
+   }
+}
+
+/* Estilos para la página de Encuentros de Ligas */
+.filtrosContainerEncuentros {
+  composes: filtrosContainerClasificacion; /* Hereda estilos base */
+  /* Estilos específicos si son necesarios */
+}
+
+.encuentrosContainer {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.encuentroCard {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
+  gap: 10px;
+}
+
+.equipoInfo {
+  flex: 2; /* Dar más espacio a los nombres de equipo */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1em;
+  min-width: 250px; /* Evitar que se comprima demasiado */
+}
+
+.equipoLocal, .equipoVisitante {
+  font-weight: 500;
+  color: #333;
+}
+
+.vs {
+  color: #888;
+  font-weight: bold;
+}
+
+.resultadoInfo {
+  flex: 1;
+  text-align: center;
+  min-width: 100px;
+}
+
+.resultado {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.95em;
+  display: inline-block; /* Para que el padding funcione bien */
+}
+
+.statusJugado {
+  color: #155724; /* Verde oscuro */
+  background-color: #d4edda; /* Verde claro */
+}
+
+.statusPendiente {
+  color: #856404; /* Naranja/marrón oscuro */
+  background-color: #fff3cd; /* Amarillo pálido */
+}
+
+.statusProximo {
+   color: #0c5460; /* Azul oscuro */
+  background-color: #d1ecf1; /* Azul claro */
+}
+
+.statusCancelado {
+  color: #721c24; /* Rojo oscuro para errores/cancelaciones */
+  background-color: #f8d7da; /* Rojo claro */
+}
+
+.fechaHoraInfo {
+  flex: 1.5; /* Espacio para fecha y hora */
+  text-align: right;
+  font-size: 0.9em;
+  color: #555;
+  min-width: 150px;
+}
+
+/* Responsive para encuentroCard */
+@media (max-width: 768px) {
+  .encuentroCard {
+    flex-direction: column;
+    align-items: stretch; /* Alinear items al ancho completo */
+  }
+  .equipoInfo, .resultadoInfo, .fechaHoraInfo {
+    text-align: center; /* Centrar todo en móvil */
+    flex-basis: auto; /* Resetear flex-basis */
+    min-width: unset;
+  }
+   .resultadoInfo {
+     margin: 10px 0; /* Añadir espacio vertical */
+   }
+} 

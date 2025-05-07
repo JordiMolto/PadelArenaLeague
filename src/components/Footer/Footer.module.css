@@ -2,7 +2,6 @@
   background-color: #1a1a1a;
   color: #f8f9fa;
   padding: var(--spacing-xl) 0 var(--spacing-md);
-  margin-top: var(--spacing-xxl);
 }
 
 .container {
@@ -64,7 +63,6 @@
 
 .footerLink:hover {
   color: var(--color-primary);
-  transform: translateX(5px);
 }
 
 .contactInfo {
@@ -109,12 +107,11 @@
   color: white;
   border-radius: var(--border-radius-circle);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast);
 }
 
 .socialLink:hover {
   background-color: var(--color-primary);
-  transform: translateY(-3px);
 }
 
 .footerBottom {

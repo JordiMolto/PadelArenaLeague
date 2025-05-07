@@ -1,47 +1,47 @@
 :root {
   /* Colores principales */
-  --color-primary: #3498db;
-  --color-primary-dark: #2980b9;
-  --color-secondary: #2ecc71;
-  --color-secondary-dark: #27ae60;
-  --color-accent: #f39c12;
-  --color-accent-dark: #e67e22;
+  --color-primary: #6A0DAD; /* Morado púrpura */
+  --color-primary-dark: #4B0082; /* Índigo */
+  --color-secondary: #9370DB; /* Morado medio pálido */
+  --color-secondary-dark: #7A5FB0; /* Morado medio pálido oscuro */
+  --color-accent: #E6E6FA; /* Lavanda muy pálido */
+  --color-accent-dark: #D8BFD8; /* Thistle */
   
   /* Colores neutros */
-  --color-background: #f8f9fa;
-  --color-surface: #ffffff;
-  --color-text: #333333;
-  --color-text-light: #666666;
-  --color-border: #e0e0e0;
+  --color-background: #FFFFFF; /* Blanco */
+  --color-surface: #F8F9FA; /* Gris casi blanco */
+  --color-text: #212529; /* Negro suave */
+  --color-text-light: #6C757D; /* Gris medio */
+  --color-border: #DEE2E6; /* Gris claro para bordes */
   
   /* Espaciado */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-xxl: 3rem;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
   
   /* Tipografía */
-  --font-family: 'Roboto', 'Segoe UI', sans-serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-xxl: 2rem;
+  --font-family: 'Poppins', 'Helvetica Neue', sans-serif; /* Fuente moderna */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-size-xxl: 32px;
   
   /* Bordes */
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
+  --border-radius-sm: 2px; /* Más nítido */
+  --border-radius-md: 4px; /* Más nítido */
+  --border-radius-lg: 8px; /* Más nítido */
   --border-radius-xl: 16px;
   --border-radius-circle: 50%;
   
   /* Sombras */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombras sutiles para tema claro */
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12);
   
   /* Transiciones */
   --transition-fast: 0.2s ease;

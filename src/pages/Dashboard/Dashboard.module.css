@@ -31,14 +31,13 @@
 
 .dashboardCard {
   background-color: var(--color-surface);
-  border-radius: var(--border-radius-lg);
+  border-radius: 4px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: box-shadow var(--transition-fast);
 }
 
 .dashboardCard:hover {
-  transform: translateY(-5px);
   box-shadow: var(--shadow-md);
 }
 
@@ -137,7 +136,7 @@
   padding: var(--spacing-xs) var(--spacing-md);
   background-color: var(--color-primary);
   color: white;
-  border-radius: var(--border-radius-md);
+  border-radius: 2px;
   text-decoration: none;
   font-size: var(--font-size-sm);
   transition: background-color var(--transition-fast);
@@ -162,14 +161,14 @@
   justify-content: center;
   align-items: center;
   padding: var(--spacing-md);
-  background-color: #f8f9fa;
-  color: var(--color-text);
-  border-radius: var(--border-radius-md);
+  background-color: transparent;
+  color: var(--color-primary);
+  border-radius: 2px;
   text-decoration: none;
   font-weight: 500;
   text-align: center;
-  transition: all var(--transition-fast);
-  border: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  border: 1px solid var(--color-primary);
 }
 
 .quickActionButton:hover {
@@ -190,7 +189,7 @@
 .loader {
   width: 50px;
   height: 50px;
-  border: 5px solid #f3f3f3;
+  border: 5px solid #444444;
   border-top: 5px solid var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -206,7 +205,7 @@
   background-color: rgba(231, 76, 60, 0.1);
   color: #e74c3c;
   padding: var(--spacing-md);
-  border-radius: var(--border-radius-md);
+  border-radius: 2px;
   margin-bottom: var(--spacing-lg);
 }
 

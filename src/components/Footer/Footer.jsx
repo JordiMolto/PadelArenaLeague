@@ -51,6 +51,9 @@ const Footer = () => {
               <li>
                 <Link to="/terminos" className={styles.footerLink}>Términos y Condiciones</Link>
               </li>
+              <li>
+                <Link to="/cookies" className={styles.footerLink}>Política de Cookies</Link>
+              </li>
             </ul>
           </div>
 
