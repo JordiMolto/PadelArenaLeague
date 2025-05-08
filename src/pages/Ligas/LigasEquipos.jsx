@@ -1,7 +1,26 @@
 // src/pages/Ligas/LigasEquipos.jsx
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom'; // Importar si usamos Links
 import styles from './Ligas.module.css';
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data Ampliado ---
 // Ligas (con formato añadido)
@@ -125,6 +144,9 @@ const LigasEquipos = () => {
 
   // Estado vista detalle
   const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
+
+  // Ref para animación del grid
+  const [gridEquiposRef, isGridEquiposVisible] = useElementOnScreen({ threshold: 0.05 }); // Threshold bajo
 
   useEffect(() => {
     // Cargar opciones de filtros globales

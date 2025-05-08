@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styles from './Reglamento.module.css';
 
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
+
 const Reglamento = () => {
+  const [contentRef, isContentVisible] = useElementOnScreen({ threshold: 0.05 }); // Threshold bajo para que se active pronto
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Reglamento Oficial de Padel Arena League</h1>
 
-          <div className={styles.reglamentoContent}>
+          <div
+            ref={contentRef}
+            className={`${styles.reglamentoContent} ${styles.sectionAnimate} ${isContentVisible ? styles.visible : ''}`}
+          >
             <section id="introduccion">
               <h2>1. Introducción</h2>
               <p>Este documento establece las reglas y normativas oficiales para todos los partidos y torneos organizados bajo el nombre de Padel Arena League. El objetivo es asegurar un juego justo, deportivo y divertido para todos los participantes.</p>

@@ -1,5 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './Ligas.module.css'; // Reutilizaremos y expandiremos Ligas.module.css
+
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data Ampliado ---
 const mockLigas = [
@@ -77,6 +96,9 @@ const LigasClasificacion = () => {
   const [ligaSeleccionadaId, setLigaSeleccionadaId] = useState(''); // Ahora filtra por ID exacto
   const [filtroGrupo, setFiltroGrupo] = useState('Todos'); // Nuevo filtro
   const [busquedaEquipo, setBusquedaEquipo] = useState('');
+
+  // Ref para animación de la tabla
+  const [tablaRef, isTablaVisible] = useElementOnScreen({ threshold: 0.05 }); // Threshold bajo por si la tabla es alta
 
   useEffect(() => {
     // Extraer opciones únicas para filtros globales
@@ -251,7 +273,10 @@ const LigasClasificacion = () => {
               <div className={styles.clasificacionSection}>
                 <h2 className={styles.subPageTitle}>Clasificación: {ligaSeleccionadaNombre}</h2>
                 {clasificacionActual.length > 0 ? (
-                  <div className={styles.tablaResponsiveContainer}>
+                  <div 
+                    ref={tablaRef} 
+                    className={`${styles.tablaResponsiveContainer} ${styles.sectionAnimate} ${isTablaVisible ? styles.visible : ''}`}
+                  >
                     <table className={styles.tablaClasificacion}>
                       <thead>
                         <tr>

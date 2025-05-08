@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from './Ligas.module.css';
 
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
+
 const LigaDetail = () => {
   const { ligaId } = useParams();
+
+  // Refs para animar secciones
+  const [clasificacionRef, isClasificacionVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [partidosRef, isPartidosVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [equiposRef, isEquiposVisible] = useElementOnScreen({ threshold: 0.1 });
 
   // Aquí iría la lógica para cargar los datos de la liga específica usando ligaId
   // Datos de ejemplo:

@@ -1,9 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Noticias.module.css';
+
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 const Noticias = () => {
   const [categoriaActiva, setCategoriaActiva] = useState('todas');
   const [busqueda, setBusqueda] = useState('');
+
+  // Refs para animación
+  const [destacadasRef, isDestacadasVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [gridRef, isGridVisible] = useElementOnScreen({ threshold: 0.1 });
 
   // Datos de ejemplo (en un caso real, vendrían de una API/BD)
   const categorias = [
@@ -104,7 +127,10 @@ const Noticias = () => {
 
           {/* Noticias Destacadas */}
           {noticiasDestacadas.length > 0 && (
-            <section className={styles.destacadas}>
+            <section 
+              ref={destacadasRef} 
+              className={`${styles.destacadas} ${styles.sectionAnimate} ${isDestacadasVisible ? styles.visible : ''}`}
+            >
               {noticiasDestacadas.map(noticia => (
                 <article key={noticia.id} className={styles.noticiaDestacada}>
                   <div className={styles.imagenDestacada}>
@@ -128,7 +154,10 @@ const Noticias = () => {
           )}
 
           {/* Grid de Noticias */}
-          <section className={styles.noticiasGrid}>
+          <section 
+            ref={gridRef} 
+            className={`${styles.noticiasGrid} ${styles.sectionAnimate} ${isGridVisible ? styles.visible : ''}`}
+          >
             {noticiasRegulares.map(noticia => (
               <article key={noticia.id} className={styles.noticiaCard}>
                 <div className={styles.imagenNoticia}>

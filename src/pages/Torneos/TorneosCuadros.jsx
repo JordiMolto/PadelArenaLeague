@@ -1,5 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './Torneos.module.css'; // Crearemos este archivo CSS
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data ---
 const mockTorneos = [
@@ -39,6 +58,9 @@ const TorneosCuadros = () => {
   const [torneos, setTorneos] = useState([]);
   const [torneoSeleccionadoId, setTorneoSeleccionadoId] = useState('');
   const [cuadro, setCuadro] = useState(null); // { 1: [...partidosRonda1], 2: [...partidosRonda2], ... }
+
+  // Ref para animar el cuadro
+  const [cuadroRef, isCuadroVisible] = useElementOnScreen({ threshold: 0.05 });
 
   useEffect(() => {
     setTorneos([{ id: '', nombre: 'Selecciona un torneo...' }, ...mockTorneos]);
@@ -88,7 +110,10 @@ const TorneosCuadros = () => {
           </div>
 
           {torneoSeleccionado && cuadro ? (
-            <div className={styles.cuadroTorneoContainer}>
+            <div 
+              ref={cuadroRef} 
+              className={`${styles.cuadroTorneoContainer} ${styles.sectionAnimate} ${isCuadroVisible ? styles.visible : ''}`}
+            >
               <h2 className={styles.subPageTitle}>{torneoSeleccionado.nombre} - {torneoSeleccionado.tipo}</h2>
               <div className={styles.rondasContainer}>
                 {Object.entries(cuadro).map(([numeroRonda, partidosRonda]) => (

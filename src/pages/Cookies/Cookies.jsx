@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styles from './Cookies.module.css'; // Usará los mismos estilos que Privacidad/Terminos
 
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
+
 const Cookies = () => {
+  const [contentRef, isContentVisible] = useElementOnScreen({ threshold: 0.05 });
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Política de Cookies</h1>
 
-          <div className={styles.legalContent}>
+          <div 
+            ref={contentRef} 
+            className={`${styles.legalContent} ${styles.sectionAnimate} ${isContentVisible ? styles.visible : ''}`}
+          >
             <section>
               <h2>1. ¿Qué son las cookies?</h2>
               <p>Una cookie es un pequeño fichero de texto que se almacena en su navegador cuando visita casi cualquier página web. Su utilidad es que la web sea capaz de recordar su visita cuando vuelva a navegar por esa página.</p>

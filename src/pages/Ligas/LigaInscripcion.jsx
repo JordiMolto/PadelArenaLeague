@@ -1,6 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Ligas.module.css'; // Usará el CSS compartido
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // Datos de ejemplo ampliados para las ligas disponibles
 const ligasDisponibles = [
@@ -56,6 +75,15 @@ const LigaInscripcion = () => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  // Refs para animación
+  const [heroRef, isHeroVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [ligasAbiertasRef, isLigasAbiertasVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [comoFuncionaRef, isComoFuncionaVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [beneficiosRef, isBeneficiosVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [formRef, isFormVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [faqRef, isFaqVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [ctaFinalRef, isCtaFinalVisible] = useElementOnScreen({ threshold: 0.1 });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -128,7 +156,10 @@ const LigaInscripcion = () => {
       <div className={styles.container}>
         
         {/* 1. Hero Section */}
-        <section className={styles.inscripcionHero}>
+        <section 
+          ref={heroRef} 
+          className={`${styles.inscripcionHero} ${styles.sectionAnimate} ${isHeroVisible ? styles.visible : ''}`}
+        >
             <h1 className={styles.pageTitle}>Forma parte de la liga de pádel más flexible y automatizada</h1>
             <p className={styles.pageDescription}>
                 Elige tu liga, crea tu equipo y empieza a competir según tu disponibilidad. 
@@ -140,7 +171,10 @@ const LigaInscripcion = () => {
         </section>
 
         {/* 2. Ligas Abiertas (Cards) */}
-        <section className={styles.ligasAbiertasSection}>
+        <section 
+          ref={ligasAbiertasRef} 
+          className={`${styles.ligasAbiertasSection} ${styles.sectionAnimate} ${isLigasAbiertasVisible ? styles.visible : ''}`}
+        >
              <h2 className={styles.subPageTitle}>Ligas Abiertas para Inscripción</h2>
              {ligasDisponibles.length > 0 ? (
                 <div className={styles.ligasDisponiblesGrid}>
@@ -171,7 +205,10 @@ const LigaInscripcion = () => {
         </section>
 
         {/* 3. Cómo funciona la inscripción? */}
-        <section className={styles.comoFuncionaInscripcion}>
+        <section 
+          ref={comoFuncionaRef} 
+          className={`${styles.comoFuncionaInscripcion} ${styles.sectionAnimate} ${isComoFuncionaVisible ? styles.visible : ''}`}
+        >
             <h2 className={styles.subPageTitle}>¿Cómo funciona la inscripción?</h2>
             <div className={styles.inscripcionPasosGrid}>
                 <div className={styles.pasoItem}>
@@ -197,7 +234,10 @@ const LigaInscripcion = () => {
         </section>
 
         {/* 4. ¿Qué incluye la inscripción? */}
-        <section className={styles.beneficiosInscripcion}>
+        <section 
+          ref={beneficiosRef} 
+          className={`${styles.beneficiosInscripcion} ${styles.sectionAnimate} ${isBeneficiosVisible ? styles.visible : ''}`}
+        >
             <h2 className={styles.subPageTitle}>¿Qué obtienes al inscribirte?</h2>
             <ul className={styles.beneficiosList}>
                 <li><span className="material-symbols-outlined">check_circle</span> Acceso gratuito a toda la temporada</li>
@@ -210,7 +250,11 @@ const LigaInscripcion = () => {
         </section>
         
         {/* 5. Formulario de Inscripción */}
-        <section id="inscripcion-form" className={styles.formularioSection}> 
+        <section 
+          id="inscripcion-form" 
+          ref={formRef} 
+          className={`${styles.formularioSection} ${styles.sectionAnimate} ${isFormVisible ? styles.visible : ''}`}
+        > 
           <h2 className={styles.subPageTitle}>Formulario de Inscripción</h2>
           {error && <p className={styles.errorMessage}>{error}</p>}
           {success && <p className={styles.successMessage}>{success}</p>}
@@ -313,7 +357,10 @@ const LigaInscripcion = () => {
         </section>
 
         {/* 6. FAQ */}
-        <section className={styles.faqSectionInscripcion}>
+        <section 
+          ref={faqRef} 
+          className={`${styles.faqSectionInscripcion} ${styles.sectionAnimate} ${isFaqVisible ? styles.visible : ''}`}
+        >
             <h2 className={styles.subPageTitle}>Preguntas Rápidas sobre Inscripción</h2>
             <div className={styles.faqListInscripcion}> 
                 <div className={styles.faqItemInscripcion}>
@@ -336,7 +383,10 @@ const LigaInscripcion = () => {
         </section>
 
         {/* 7. CTA Final */}
-        <section className={styles.ctaFinalInscripcion}>
+        <section 
+          ref={ctaFinalRef} 
+          className={`${styles.ctaFinalInscripcion} ${styles.sectionAnimate} ${isCtaFinalVisible ? styles.visible : ''}`}
+        >
             <h2>¿Listo para competir con libertad?</h2>
             <a href="#inscripcion-form" className={`button ${styles.heroCTAButtonInscripcion}`}> 
                 🔵 Inscribirme ahora

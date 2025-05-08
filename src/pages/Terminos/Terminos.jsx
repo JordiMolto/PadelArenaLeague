@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styles from './Terminos.module.css'; // Usará los mismos estilos que Privacidad
 
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
+
 const Terminos = () => {
+  const [contentRef, isContentVisible] = useElementOnScreen({ threshold: 0.05 });
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Términos y Condiciones</h1>
 
-          <div className={styles.legalContent}>
+          <div
+            ref={contentRef}
+            className={`${styles.legalContent} ${styles.sectionAnimate} ${isContentVisible ? styles.visible : ''}`}
+          >
             <section>
               <h2>1. Aceptación de los Términos</h2>
               <p>Al acceder y utilizar los servicios de Padel Arena League (en adelante, "la Plataforma"), usted acepta estar sujeto a estos Términos y Condiciones (en adelante, "Términos") y a nuestra Política de Privacidad.</p>

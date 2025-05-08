@@ -1,6 +1,25 @@
 // src/pages/Ligas/LigasEncuentros.jsx
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './Ligas.module.css'; // Reutilizaremos y expandiremos
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data Ampliado ---
 const mockLigas = [
@@ -73,6 +92,9 @@ const LigasEncuentros = () => {
   // Para simular el detalle de un encuentro
   const [encuentroSeleccionado, setEncuentroSeleccionado] = useState(null);
 
+  // Ref para animar el contenedor de encuentros
+  const [encuentrosContainerRef, isEncuentrosContainerVisible] = useElementOnScreen({ threshold: 0.05 });
+
   useEffect(() => {
     // Cargar opciones únicas para filtros globales
     setTemporadas(['Todas', ...new Set(mockLigas.map(l => l.temporada))]);
@@ -84,7 +106,7 @@ const LigasEncuentros = () => {
   useEffect(() => {
     const filtradas = mockLigas.filter(liga =>
       (filtroTemporada === 'Todas' || liga.temporada === filtroTemporada) &&
-      (filtroFormato === 'Todas' || liga.formato === filtroFormato) &&
+      (filtroFormato === 'Todos' || liga.formato === filtroFormato) &&
       (filtroCategoria === 'Todas' || liga.categoria === filtroCategoria)
     );
     setLigasFiltradas(filtradas);
@@ -231,34 +253,39 @@ const LigasEncuentros = () => {
           </div>
 
           {/* --- Lista de Encuentros por Jornada --- */}
-          {ligaSeleccionadaId ? (
-            Object.keys(encuentrosAgrupadosPorJornada).length > 0 ? (
-              Object.entries(encuentrosAgrupadosPorJornada).map(([jornadaHeader, partidos]) => (
-                <div key={jornadaHeader} className={styles.jornadaGroupEncuentros}> 
-                  <h2 className={styles.jornadaHeader}>{jornadaHeader}</h2>
-                  {partidos.map(partido => {
-                    const statusInfo = getStatusInfo(partido.status);
-                    return (
-                      <div key={partido.idPartido} className={`${styles.encuentroListItem} ${statusInfo.className}`} onClick={() => handleEncuentroClick(partido)}>
-                        <span className={styles.encuentroEquipos}>
-                          {partido.equipoLocal} <span className={styles.vsEncuentro}>vs</span> {partido.equipoVisitante}
-                        </span>
-                        <span className={styles.encuentroResultadoStatus}>
-                          {statusInfo.icon} {partido.status}
-                          {partido.status === 'Finalizado' && partido.resultado && ` (${partido.resultado})`}
-                          {partido.status === 'Reprogramado' && partido.fechaReprogramacion && ` (para ${new Date(partido.fechaReprogramacion).toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'})})`}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))
+          <div 
+            ref={encuentrosContainerRef} 
+            className={`${styles.encuentrosContainer} ${styles.sectionAnimate} ${isEncuentrosContainerVisible ? styles.visible : ''}`}
+          >
+            {ligaSeleccionadaId ? (
+              Object.keys(encuentrosAgrupadosPorJornada).length > 0 ? (
+                Object.entries(encuentrosAgrupadosPorJornada).map(([jornadaHeader, partidos]) => (
+                  <div key={jornadaHeader} className={styles.jornadaGroupEncuentros}> 
+                    <h2 className={styles.jornadaHeader}>{jornadaHeader}</h2>
+                    {partidos.map(partido => {
+                      const statusInfo = getStatusInfo(partido.status);
+                      return (
+                        <div key={partido.idPartido} className={`${styles.encuentroListItem} ${statusInfo.className}`} onClick={() => handleEncuentroClick(partido)}>
+                          <span className={styles.encuentroEquipos}>
+                            {partido.equipoLocal} <span className={styles.vsEncuentro}>vs</span> {partido.equipoVisitante}
+                          </span>
+                          <span className={styles.encuentroResultadoStatus}>
+                            {statusInfo.icon} {partido.status}
+                            {partido.status === 'Finalizado' && partido.resultado && ` (${partido.resultado})`}
+                            {partido.status === 'Reprogramado' && partido.fechaReprogramacion && ` (para ${new Date(partido.fechaReprogramacion).toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'})})`}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))
+              ) : (
+                <p className={styles.infoMessage}>No se encontraron encuentros para los filtros seleccionados en esta liga.</p>
+              )
             ) : (
-              <p className={styles.infoMessage}>No se encontraron encuentros para los filtros seleccionados en esta liga.</p>
-            )
-          ) : (
-            <p className={styles.infoMessage}>Selecciona una liga para ver sus encuentros.</p>
-          )}
+              <p className={styles.infoMessage}>Selecciona una liga para ver sus encuentros.</p>
+            )}
+          </div> 
           
           {/* --- Acciones (Simuladas) --- */}
           {ligaSeleccionadaId && (

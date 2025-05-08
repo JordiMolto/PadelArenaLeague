@@ -34,8 +34,8 @@
   --spacing-xxl: 48px;
   
   /* Tipografía - MANTENER */
-  --font-family: 'Bebas Neue', 'Helvetica Neue', sans-serif; /* Fuente para Títulos */
-  --font-family-secondary: 'Roboto', 'Helvetica Neue', sans-serif; /* Fuente para cuerpo de texto */
+  --font-family: 'Caveat Brush', 'Bebas Neue', 'Helvetica Neue', sans-serif; /* Fuente para Títulos */
+  --font-family-secondary: 'Poppins', 'Roboto', 'Helvetica Neue', sans-serif; /* Fuente para cuerpo de texto */
   
   --font-size-xs: 12px;
   --font-size-sm: 14px;
@@ -45,10 +45,10 @@
   --font-size-xxl: 32px; /* Base para cálculo de títulos */
   
   /* Bordes - MANTENER MENOS REDONDEADOS */
-  --border-radius-sm: 0px;
-  --border-radius-md: 2px;
-  --border-radius-lg: 4px;
-  --border-radius-xl: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
   --border-radius-circle: 50%;
   
   /* Sombras - Volver a las originales o ajustar */

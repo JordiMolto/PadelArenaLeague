@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useRef, useState, useEffect } from 'react';
 import styles from "./Home.module.css";
 
 // Datos Mock para Ligas Activas y Testimonios
@@ -47,7 +48,37 @@ const mockTestimonios = [
   },
 ];
 
+// Hook personalizado para IntersectionObserver (opcional, se puede integrar directamente)
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => {
+      if (containerRef.current) observer.unobserve(containerRef.current);
+    };
+  }, [containerRef, options]);
+
+  return [containerRef, isVisible];
+};
+
 const Home = () => {
+  // Usar el hook para cada sección
+  // Ajustar el threshold según se necesite (0.1 significa que el 10% de la sección debe estar visible)
+  const [howItWorksRef, isHowItWorksVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [featuresRef, isFeaturesVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [ligasActivasRef, isLigasActivasVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [testimoniosRef, isTestimoniosVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [faqRef, isFaqVisible] = useElementOnScreen({ threshold: 0.1 });
+
   return (
     <div className={styles.home}>
       {/* Hero Section */}
@@ -79,7 +110,11 @@ const Home = () => {
       </section>
 
       {/* Cómo funciona Section */}
-      <section id="como-funciona" className={styles.howItWorks}>
+      <section 
+        id="como-funciona" 
+        ref={howItWorksRef} 
+        className={`${styles.howItWorks} ${styles.sectionAnimate} ${isHowItWorksVisible ? styles.visible : ''}`}
+      >
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Cómo Funciona</h2>
           <div className={styles.steps}>
@@ -122,7 +157,10 @@ const Home = () => {
       </section>
 
       {/* Beneficios Section (Reutilizando .features) */}
-      <section className={styles.features}>
+      <section 
+        ref={featuresRef} 
+        className={`${styles.features} ${styles.sectionAnimate} ${isFeaturesVisible ? styles.visible : ''}`}
+      >
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>¿Por Qué Padel Arena League?</h2>
           <div className={styles.featureGrid}> 
@@ -167,7 +205,10 @@ const Home = () => {
       </section>
 
       {/* Ligas Activas Section */}
-      <section className={styles.ligasActivas}>
+      <section 
+        ref={ligasActivasRef} 
+        className={`${styles.ligasActivas} ${styles.sectionAnimate} ${isLigasActivasVisible ? styles.visible : ''}`}
+      >
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Ligas con Inscripción Abierta</h2>
           <div className={styles.ligasGrid}>
@@ -193,7 +234,10 @@ const Home = () => {
       </section>
 
       {/* Testimonios Section */}
-      <section className={styles.testimonios}>
+      <section 
+        ref={testimoniosRef} 
+        className={`${styles.testimonios} ${styles.sectionAnimate} ${isTestimoniosVisible ? styles.visible : ''}`}
+      >
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Lo Que Dicen Nuestros Jugadores</h2>
           <div className={styles.testimoniosGrid}>
@@ -216,7 +260,10 @@ const Home = () => {
       </section>
 
       {/* FAQ Destacadas Section */}
-      <section className={styles.faqDestacadas}>
+      <section 
+        ref={faqRef} 
+        className={`${styles.faqDestacadas} ${styles.sectionAnimate} ${isFaqVisible ? styles.visible : ''}`}
+      >
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Preguntas Frecuentes</h2>
           <div className={styles.faqGrid}>

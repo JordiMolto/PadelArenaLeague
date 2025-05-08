@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styles from './Privacidad.module.css';
 
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
+
 const Privacidad = () => {
+  const [contentRef, isContentVisible] = useElementOnScreen({ threshold: 0.05 });
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.container}>
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Política de Privacidad</h1>
 
-          <div className={styles.legalContent}>
+          <div
+            ref={contentRef}
+            className={`${styles.legalContent} ${styles.sectionAnimate} ${isContentVisible ? styles.visible : ''}`}
+          >
             <section>
               <h2>1. Información que recopilamos</h2>
               <p>Recopilamos información personal cuando te registras, utilizas nuestros servicios o te comunicas con nosotros. Esto puede incluir tu nombre, correo electrónico, número de teléfono y datos de juego.</p>

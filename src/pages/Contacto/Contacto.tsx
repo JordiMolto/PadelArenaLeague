@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Contacto.module.css";
 
 interface FormData {
@@ -15,6 +15,29 @@ interface MensajeEstado {
   texto: string;
 }
 
+// Hook useElementOnScreen (copiado de Home.jsx para este ejemplo)
+const useElementOnScreen = (options: IntersectionObserverInit) => {
+  const containerRef = useRef<HTMLDivElement>(null); // Especificar tipo de elemento para la ref
+  const [isVisible, setIsVisible] = useState(false);
+
+  const callbackFunction = (entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+
+  return [containerRef, isVisible] as const; // Afirmación de tipo para tupla
+};
+
 const Contacto: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
@@ -26,6 +49,9 @@ const Contacto: React.FC = () => {
   });
 
   const [mensaje, setMensaje] = useState<MensajeEstado | null>(null);
+
+  // Observador para la sección principal del grid
+  const [contactoGridRef, isContactoGridVisible] = useElementOnScreen({ threshold: 0.1 });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -71,7 +97,10 @@ const Contacto: React.FC = () => {
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Contacto</h1>
 
-          <div className={styles.contactoGrid}>
+          <div 
+            ref={contactoGridRef} 
+            className={`${styles.contactoGrid} ${styles.sectionAnimate} ${isContactoGridVisible ? styles.visible : ''}`}
+          >
             <div className={styles.infoColumn}>
               <div className={styles.infoSection}>
                 <div className={styles.contactItem}>

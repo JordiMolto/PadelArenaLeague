@@ -1,7 +1,26 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRequireAuth } from '../../hooks/useRequireAuth';
 import { getPerfil, actualizarPerfil } from '../../services/supabase';
 import styles from './Profile.module.css';
+
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 const Profile = () => {
   const { user, loading } = useRequireAuth();
@@ -24,6 +43,11 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  // Refs para animación
+  const [infoFormRef, isInfoFormVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [passwordFormRef, isPasswordFormVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [dangerZoneRef, isDangerZoneVisible] = useElementOnScreen({ threshold: 0.1 });
 
   useEffect(() => {
     const cargarPerfil = async () => {

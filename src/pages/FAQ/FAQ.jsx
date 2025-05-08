@@ -1,9 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './FAQ.module.css';
+
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 const FAQ = () => {
   // Estado para controlar qué pregunta está abierta
   const [activeIndex, setActiveIndex] = useState(null);
+
+  // Ref para animación del contenedor principal de FAQs
+  const [faqContainerRef, isFaqContainerVisible] = useElementOnScreen({ threshold: 0.05 });
 
   // Datos de ejemplo (en un caso real, vendrían de una API/BD)
   const faqs = [
@@ -79,7 +101,10 @@ const FAQ = () => {
         <div className={styles.profileCard}>
           <h1 className={styles.profileTitle}>Preguntas Frecuentes</h1>
           
-          <div className={styles.faqContainer}>
+          <div 
+            ref={faqContainerRef}
+            className={`${styles.faqContainer} ${styles.sectionAnimate} ${isFaqContainerVisible ? styles.visible : ''}`}
+          >
             {faqs.map((categoria, categoriaIndex) => (
               <div key={categoriaIndex} className={styles.categoriaContainer}>
                 <h2 className={styles.categoriaTitle}>{categoria.categoria}</h2>

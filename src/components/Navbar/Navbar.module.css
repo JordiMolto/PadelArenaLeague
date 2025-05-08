@@ -328,7 +328,6 @@
 
   .navItem {
     width: 100%;
-    margin-bottom: var(--spacing-md);
   }
 
   .dropdown {

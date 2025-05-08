@@ -1,5 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './Torneos.module.css'; // Reutilizaremos estilos
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data ---
 const mockTorneos = [
@@ -38,6 +57,9 @@ const TorneosResultados = () => {
   const [rondaFiltro, setRondaFiltro] = useState('Todas');
   const [busquedaEquipo, setBusquedaEquipo] = useState('');
   const [rondasOptions, setRondasOptions] = useState(['Todas']);
+
+  // Ref para animar el contenedor de resultados
+  const [resultadosRef, isResultadosVisible] = useElementOnScreen({ threshold: 0.05 });
 
   useEffect(() => {
     setTorneos([{ id: '', nombre: 'Selecciona un torneo...' }, ...mockTorneos]);
@@ -143,7 +165,10 @@ const TorneosResultados = () => {
           </div>
 
           {torneoSeleccionadoId ? (
-            <div className={styles.resultadosContainerTorneo}> 
+            <div 
+              ref={resultadosRef} 
+              className={`${styles.resultadosContainerTorneo} ${styles.sectionAnimate} ${isResultadosVisible ? styles.visible : ''}`}
+            > 
               <h2 className={styles.subPageTitle}>
                 Resultados: {torneoSeleccionadoNombre}
                 {rondaFiltro !== 'Todas' && ` - ${rondaFiltro}`}

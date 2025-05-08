@@ -1,6 +1,25 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom'; // Importar Link para enlaces rápidos
 import styles from './Ligas.module.css';
+
+// Hook useElementOnScreen 
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 // --- Mock Data Ampliado ---
 const mockLigas = [
@@ -62,6 +81,10 @@ const LigasResultados = () => {
 
   // Estado para simular login (para mostrar botón de subir resultado)
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Cambiar a false para probar
+
+  // Refs para animación
+  const [ultimosResRef, isUltimosResVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [resultadosContainerRef, isResultadosContainerVisible] = useElementOnScreen({ threshold: 0.05 });
 
   useEffect(() => {
     // Extraer opciones únicas para filtros globales
@@ -212,7 +235,10 @@ const LigasResultados = () => {
 
           {/* --- Últimos Resultados --- */}
           {ligaSeleccionadaId && ultimosResultados.length > 0 && (
-            <div className={styles.ultimosResultadosContainer}>
+            <div 
+              ref={ultimosResRef} 
+              className={`${styles.ultimosResultadosContainer} ${styles.sectionAnimate} ${isUltimosResVisible ? styles.visible : ''}`}
+            >
               <h3 className={styles.smallSectionTitle}>Últimos Resultados Finalizados</h3>
               <div className={styles.ultimosResultadosScroll}>
                 {ultimosResultados.map(partido => (
@@ -226,35 +252,40 @@ const LigasResultados = () => {
           )}
 
           {/* --- Lista Principal de Resultados por Jornada --- */}
-          {ligaSeleccionadaId ? (
-            Object.keys(resultadosAgrupados).length > 0 ? (
-              Object.entries(resultadosAgrupados).map(([jornadaHeader, partidos]) => (
-                <div key={jornadaHeader} className={styles.jornadaGroup}>
-                  <h2 className={styles.jornadaHeader}>{jornadaHeader}</h2>
-                  {partidos.map(partido => {
-                    const statusInfo = getStatusIcon(partido.status);
-                    return (
-                      <div key={partido.idPartido} className={styles.resultadoItemCard}>
-                        <div className={styles.resultadoEquipos}>
-                          {partido.equipoLocal} <span className={styles.vsResultado}>vs</span> {partido.equipoVisitante}
+          <div 
+            ref={resultadosContainerRef} 
+            className={`${styles.sectionAnimate} ${isResultadosContainerVisible ? styles.visible : ''}`}
+          >
+            {ligaSeleccionadaId ? (
+              Object.keys(resultadosAgrupados).length > 0 ? (
+                Object.entries(resultadosAgrupados).map(([jornadaHeader, partidos]) => (
+                  <div key={jornadaHeader} className={styles.jornadaGroup}>
+                    <h2 className={styles.jornadaHeader}>{jornadaHeader}</h2>
+                    {partidos.map(partido => {
+                      const statusInfo = getStatusIcon(partido.status);
+                      return (
+                        <div key={partido.idPartido} className={styles.resultadoItemCard}>
+                          <div className={styles.resultadoEquipos}>
+                            {partido.equipoLocal} <span className={styles.vsResultado}>vs</span> {partido.equipoVisitante}
+                          </div>
+                          <div className={styles.resultadoResultado}>
+                            {partido.resultado || '-'}
+                          </div>
+                          <div className={`${styles.resultadoStatus} ${statusInfo.className}`}>
+                            {statusInfo.icon} {partido.status}
+                          </div>
                         </div>
-                        <div className={styles.resultadoResultado}>
-                          {partido.resultado || '-'}
-                        </div>
-                        <div className={`${styles.resultadoStatus} ${statusInfo.className}`}>
-                          {statusInfo.icon} {partido.status}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))
+                      );
+                    })}
+                  </div>
+                ))
+              ) : (
+                <p className={styles.infoMessage}>No se encontraron resultados para los filtros seleccionados en "{ligaSeleccionadaNombre}".</p>
+              )
             ) : (
-              <p className={styles.infoMessage}>No se encontraron resultados para los filtros seleccionados en "{ligaSeleccionadaNombre}".</p>
-            )
-          ) : (
-            <p className={styles.infoMessage}>Selecciona una liga para ver los resultados.</p>
-          )}
+              <p className={styles.infoMessage}>Selecciona una liga para ver los resultados.</p>
+            )}
+          </div>
 
           {/* --- Sección Subir Resultado (Simulada) --- */}
           {isLoggedIn && ligaSeleccionadaId && (

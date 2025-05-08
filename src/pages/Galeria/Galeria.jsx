@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Galeria.module.css';
+
+// Hook useElementOnScreen
+const useElementOnScreen = (options) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const callbackFunction = (entries) => {
+    const [entry] = entries;
+    setIsVisible(entry.isIntersecting);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options);
+    const currentRef = containerRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [containerRef, options]);
+  return [containerRef, isVisible];
+};
 
 const Galeria = () => {
   // Estado para el filtro activo y el modal
   const [filtroActivo, setFiltroActivo] = useState('todos');
   const [modalImage, setModalImage] = useState(null);
+
+  // Ref para la animación del grid
+  const [gridRef, isGridVisible] = useElementOnScreen({ threshold: 0.1 });
 
   // Datos de ejemplo (en un caso real, vendrían de una API/BD)
   const categorias = [
@@ -79,7 +101,10 @@ const Galeria = () => {
           </div>
 
           {/* Grid de imágenes */}
-          <div className={styles.galeriaGrid}>
+          <div 
+            ref={gridRef} 
+            className={`${styles.galeriaGrid} ${styles.sectionAnimate} ${isGridVisible ? styles.visible : ''}`}
+          >
             {imagenesFiltradas.map(imagen => (
               <div 
                 key={imagen.id} 
