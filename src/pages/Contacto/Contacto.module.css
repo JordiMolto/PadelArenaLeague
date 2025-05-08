@@ -11,16 +11,13 @@
 
 .profileCard {
   background: var(--color-background);
-  border-radius: 12px;
-  box-shadow: var(--shadow-md);
   padding: 32px;
 }
 
 .profileTitle {
-  font-size: 40px;
+  /* font-size: 40px; */ /* Eliminado */
   color: var(--color-text);
   margin-bottom: 32px;
-  text-align: center;
 }
 
 .contactoGrid {
@@ -38,31 +35,34 @@
 .infoColumn {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .infoSection {
-  background-color: var(--color-background);
-  padding: 32px;
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
 
 .infoSection h2 {
   color: var(--color-text);
-  margin-bottom: 16px;
-  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-lg);
 }
 
 .infoSection p {
   color: var(--color-text-light);
-  margin-bottom: 32px;
+  margin-bottom: 0;
+  line-height: 1.6;
 }
 
 .contactItem {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .icon {
@@ -75,17 +75,20 @@
   align-items: center;
   justify-content: center;
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .contactItem h3 {
   margin: 0;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: var(--font-size-md);
+  font-weight: 500;
 }
 
 .contactItem p {
   margin: 4px 0 0;
   color: var(--color-text-light);
+  font-size: var(--font-size-sm);
 }
 
 .socialLinks {
@@ -114,7 +117,6 @@
 }
 
 .formSection {
-  padding: 32px;
   background-color: var(--color-background);
   border-radius: var(--border-radius-lg);
 }
@@ -238,4 +240,4 @@
     width: 32px;
     height: 32px;
   }
-} 
+}

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { signOut } from "../../services/supabase";
 import styles from "./Navbar.module.css";
+import logoPal from "../../assets/images/main/logo_pal.png";
 
 const Navbar = () => {
   const { user, isAuthenticated } = useAuth();
@@ -10,24 +11,18 @@ const Navbar = () => {
 
   // Estados para visibilidad de menús
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showLigasTorneosMenu, setShowLigasTorneosMenu] = useState(false);
+  const [showLigasMenu, setShowLigasMenu] = useState(false);
+  const [showTorneosMenu, setShowTorneosMenu] = useState(false);
   const [showInfoMenu, setShowInfoMenu] = useState(false);
   const [showMediaMenu, setShowMediaMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  // Nuevos estados para sub-menús anidados
-  const [showSubLigasMenu, setShowSubLigasMenu] = useState(false);
-  const [showSubTorneosMenu, setShowSubTorneosMenu] = useState(false);
-
   // Refs para cerrar menús al hacer clic fuera
-  const ligasTorneosMenuRef = useRef(null);
+  const ligasMenuRef = useRef(null);
+  const torneosMenuRef = useRef(null);
   const infoMenuRef = useRef(null);
   const mediaMenuRef = useRef(null);
   const userMenuRef = useRef(null);
-
-  // Nuevas refs para sub-menús anidados
-  const subLigasMenuRef = useRef(null);
-  const subTorneosMenuRef = useRef(null);
 
   const handleLogout = async () => {
     setShowUserMenu(false);
@@ -37,42 +32,30 @@ const Navbar = () => {
 
   // Funciones toggle para los menús
   const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
-  const toggleLigasTorneosMenu = () => setShowLigasTorneosMenu(!showLigasTorneosMenu);
+  const toggleLigasMenu = () => setShowLigasMenu(!showLigasMenu);
+  const toggleTorneosMenu = () => setShowTorneosMenu(!showTorneosMenu);
   const toggleInfoMenu = () => setShowInfoMenu(!showInfoMenu);
   const toggleMediaMenu = () => setShowMediaMenu(!showMediaMenu);
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
-  // Nuevas funciones toggle para sub-menús
-  const toggleSubLigasMenu = (e) => {
-    e.stopPropagation();
-    setShowSubLigasMenu(!showSubLigasMenu);
-    setShowSubTorneosMenu(false);
-  };
-
-  const toggleSubTorneosMenu = (e) => {
-    e.stopPropagation();
-    setShowSubTorneosMenu(!showSubTorneosMenu);
-    setShowSubLigasMenu(false);
-  };
-
   // Función para cerrar todos los menús al hacer clic en un enlace
   const handleLinkClick = () => {
     setShowMobileMenu(false);
-    setShowLigasTorneosMenu(false);
+    setShowLigasMenu(false);
+    setShowTorneosMenu(false);
     setShowMediaMenu(false);
     setShowInfoMenu(false);
     setShowUserMenu(false);
-    setShowSubLigasMenu(false);
-    setShowSubTorneosMenu(false);
   };
 
   // Hook genérico para clics fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (ligasTorneosMenuRef.current && !ligasTorneosMenuRef.current.contains(event.target)) {
-        setShowLigasTorneosMenu(false);
-        setShowSubLigasMenu(false);
-        setShowSubTorneosMenu(false);
+      if (ligasMenuRef.current && !ligasMenuRef.current.contains(event.target)) {
+        setShowLigasMenu(false);
+      }
+      if (torneosMenuRef.current && !torneosMenuRef.current.contains(event.target)) {
+        setShowTorneosMenu(false);
       }
       if (infoMenuRef.current && !infoMenuRef.current.contains(event.target)) {
         setShowInfoMenu(false);
@@ -94,8 +77,8 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        <Link to="/" className={styles.logo} onClick={handleLinkClick}>
-          PAL (pal)
+        <Link to="/" className={styles.logoLink} onClick={handleLinkClick}>
+          <img src={logoPal} alt="Padel Arena League Logo" className={styles.logoImage} />
         </Link>
 
         <button
@@ -116,65 +99,49 @@ const Navbar = () => {
               </Link>
             </li>
 
-            {/* Ligas & Torneos (Principal Dropdown) */}
+            {/* Menú Ligas (Nuevo Nivel Superior) */}
             <li
               className={`${styles.navItem} ${styles.hasDropdown}`}
-              ref={ligasTorneosMenuRef}
+              ref={ligasMenuRef}
             >
               <button
                 className={styles.dropdownToggle}
-                onClick={toggleLigasTorneosMenu}
+                onClick={toggleLigasMenu}
               >
-                Ligas & Torneos <span className={styles.dropdownIcon}></span>
+                Ligas <span className={styles.dropdownIcon}></span>
               </button>
               <ul
-                className={`${styles.dropdown} ${
-                  showLigasTorneosMenu ? styles.show : ""
-                }`}
+                className={`${styles.dropdown} ${showLigasMenu ? styles.show : ""}`}
               >
-                {/* Sub-menú de Ligas */}
-                <li className={`${styles.navItem} ${styles.hasSubDropdown}`} ref={subLigasMenuRef}>
-                  <button
-                    className={styles.subDropdownToggle}
-                    onClick={toggleSubLigasMenu}
-                  >
-                    Ligas <span className={styles.dropdownIcon}></span>
-                  </button>
-                  <ul
-                    className={`${styles.subDropdown} ${
-                      showSubLigasMenu ? styles.show : ""
-                    }`}
-                  >
-                    <li><Link to="/ligas/inscripcion" className={styles.dropdownLink} onClick={handleLinkClick}>Inscripción Liga</Link></li>
-                    <li><Link to="/ligas/clasificacion" className={styles.dropdownLink} onClick={handleLinkClick}>Clasificación</Link></li>
-                    <li><Link to="/ligas/resultados" className={styles.dropdownLink} onClick={handleLinkClick}>Resultados Ligas</Link></li>
-                    <li><Link to="/ligas/equipos" className={styles.dropdownLink} onClick={handleLinkClick}>Equipos</Link></li>
-                    <li><Link to="/ligas/encuentros" className={styles.dropdownLink} onClick={handleLinkClick}>Encuentros</Link></li>
-                  </ul>
-                </li>
-
-                {/* Sub-menú de Torneos */}
-                <li className={`${styles.navItem} ${styles.hasSubDropdown}`} ref={subTorneosMenuRef}>
-                  <button
-                    className={styles.subDropdownToggle}
-                    onClick={toggleSubTorneosMenu}
-                  >
-                    Torneos <span className={styles.dropdownIcon}></span>
-                  </button>
-                  <ul
-                    className={`${styles.subDropdown} ${
-                      showSubTorneosMenu ? styles.show : ""
-                    }`}
-                  >
-                    <li><Link to="/torneos/inscripcion" className={styles.dropdownLink} onClick={handleLinkClick}>Inscripción Torneo</Link></li>
-                    <li><Link to="/torneos/cuadros" className={styles.dropdownLink} onClick={handleLinkClick}>Cuadros & Partidos</Link></li>
-                    <li><Link to="/torneos/resultados" className={styles.dropdownLink} onClick={handleLinkClick}>Resultados Torneos</Link></li>
-                  </ul>
-                </li>
+                <li><Link to="/ligas/inscripcion" className={styles.dropdownLink} onClick={handleLinkClick}>Inscripción Liga</Link></li>
+                <li><Link to="/ligas/clasificacion" className={styles.dropdownLink} onClick={handleLinkClick}>Clasificación</Link></li>
+                <li><Link to="/ligas/resultados" className={styles.dropdownLink} onClick={handleLinkClick}>Resultados</Link></li>
+                <li><Link to="/ligas/equipos" className={styles.dropdownLink} onClick={handleLinkClick}>Equipos</Link></li>
+                <li><Link to="/ligas/encuentros" className={styles.dropdownLink} onClick={handleLinkClick}>Encuentros</Link></li>
               </ul>
             </li>
 
-            {/* Media (Nuevo Dropdown) */}
+            {/* Menú Torneos (Nuevo Nivel Superior) */}
+            <li
+              className={`${styles.navItem} ${styles.hasDropdown}`}
+              ref={torneosMenuRef}
+            >
+              <button
+                className={styles.dropdownToggle}
+                onClick={toggleTorneosMenu}
+              >
+                Torneos <span className={styles.dropdownIcon}></span>
+              </button>
+              <ul
+                className={`${styles.dropdown} ${showTorneosMenu ? styles.show : ""}`}
+              >
+                <li><Link to="/torneos/inscripcion" className={styles.dropdownLink} onClick={handleLinkClick}>Inscripción Torneo</Link></li>
+                <li><Link to="/torneos/cuadros" className={styles.dropdownLink} onClick={handleLinkClick}>Cuadros & Partidos</Link></li>
+                <li><Link to="/torneos/resultados" className={styles.dropdownLink} onClick={handleLinkClick}>Resultados</Link></li>
+              </ul>
+            </li>
+
+            {/* Media (Mantenido) */}
             <li
               className={`${styles.navItem} ${styles.hasDropdown}`}
               ref={mediaMenuRef}
@@ -186,16 +153,14 @@ const Navbar = () => {
                 Media <span className={styles.dropdownIcon}></span>
               </button>
               <ul
-                className={`${styles.dropdown} ${
-                  showMediaMenu ? styles.show : ""
-                }`}
+                className={`${styles.dropdown} ${showMediaMenu ? styles.show : ""}`}
               >
                 <li><Link to="/noticias" className={styles.dropdownLink} onClick={handleLinkClick}>Noticias</Link></li>
                 <li><Link to="/galeria" className={styles.dropdownLink} onClick={handleLinkClick}>Galería</Link></li>
               </ul>
             </li>
 
-            {/* Info (Nuevo Dropdown) */}
+            {/* Info (Mantenido) */}
             <li
               className={`${styles.navItem} ${styles.hasDropdown}`}
               ref={infoMenuRef}
@@ -207,9 +172,7 @@ const Navbar = () => {
                 Info <span className={styles.dropdownIcon}></span>
               </button>
               <ul
-                className={`${styles.dropdown} ${
-                  showInfoMenu ? styles.show : ""
-                }`}
+                className={`${styles.dropdown} ${showInfoMenu ? styles.show : ""}`}
               >
                 <li><Link to="/reglamento" className={styles.dropdownLink} onClick={handleLinkClick}>Reglamento</Link></li>
                 <li><Link to="/faq" className={styles.dropdownLink} onClick={handleLinkClick}>FAQ</Link></li>
@@ -217,7 +180,7 @@ const Navbar = () => {
             </li>
           </ul>
 
-          {/* Iconos y Menú de Usuario a la derecha */}
+          {/* Iconos y Menú de Usuario a la derecha (Mantenido) */}
           <div className={styles.navActions}>
             {/* Contacto (Icono) */}
             <Link to="/contacto" className={styles.iconLink} title="Contacto" onClick={handleLinkClick}>

@@ -10,9 +10,9 @@
 }
 
 .profileCard {
-  background: var(--color-background);
+  /* background: var(--color-background); */ /* Eliminado */
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
+  /* box-shadow: var(--shadow-sm); */ /* Eliminado */
   padding: 32px;
 }
 
@@ -33,7 +33,6 @@
 }
 
 .categoriaTitle {
-  color: var(--color-primary-dark);
   font-size: var(--font-size-xl);
   margin-bottom: 16px;
   padding-bottom: 8px;
@@ -75,7 +74,8 @@
 }
 
 .pregunta {
-  font-size: 18px;
+  /* font-size: 18px; */ /* Cambiado a variable */
+  font-size: var(--font-size-md);
   color: var(--color-text);
   flex: 1;
   padding-right: 16px;
@@ -126,11 +126,11 @@
   }
 
   .categoriaTitle {
-    font-size: 18px;
+    /* font-size: 18px; */ /* Eliminado para heredar o ajustar con variable si es necesario */
   }
 
   .pregunta {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-sm); /* Mantenemos el ajuste responsive con variable */
   }
 
   .respuesta {

@@ -11,12 +11,7 @@
 /* Hero Section */
 .hero {
   padding: var(--spacing-xl) 0;
-  background: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    var(--color-primary-dark) 100%
-  );
-  color: white;
+  color: var(--color-text);
   min-height: calc(100vh - 70px);
   display: flex;
   align-items: center;
@@ -35,7 +30,6 @@
 }
 
 .heroTitle {
-  font-size: 48px;
   font-weight: 700;
   margin-bottom: var(--spacing-md);
   line-height: 1.2;
@@ -44,7 +38,7 @@
 .heroSubtitle {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-lg);
-  opacity: 0.9;
+  color: var(--color-text-light);
   line-height: 1.6;
   max-width: 600px;
 }
@@ -54,37 +48,40 @@
   gap: var(--spacing-md);
 }
 
-.primaryButton {
+.hero .primaryButton {
   display: inline-block;
   padding: var(--spacing-md) var(--spacing-lg);
-  background-color: white;
-  color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: white;
   font-weight: 600;
   border-radius: var(--border-radius-md);
   text-decoration: none;
   transition: all var(--transition-fast);
+  border: 2px solid transparent;
 }
 
-.primaryButton:hover {
+.hero .primaryButton:hover {
   background-color: var(--color-primary-dark);
   color: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.secondaryButton {
+.hero .secondaryButton {
   display: inline-block;
   padding: var(--spacing-md) var(--spacing-lg);
   background-color: transparent;
-  color: white;
+  color: var(--color-primary);
   font-weight: 600;
-  border: 2px solid white;
+  border: 2px solid var(--color-primary);
   border-radius: var(--border-radius-md);
   text-decoration: none;
   transition: all var(--transition-fast);
 }
 
-.secondaryButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.hero .secondaryButton:hover {
+  background-color: var(--color-primary-dark);
+  color: white;
+  border-color: var(--color-primary-dark);
 }
 
 .heroImage {
@@ -97,7 +94,7 @@
   width: 100%;
   max-width: 500px;
   height: 350px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.05);
   border-radius: var(--border-radius-lg);
   position: relative;
   overflow: hidden;
@@ -221,6 +218,23 @@
   margin: 0 auto var(--spacing-md);
 }
 
+.stepIconContainer {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+}
+
+.stepIcon {
+  font-size: 40px;
+}
+
 .stepTitle {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
@@ -231,46 +245,38 @@
   line-height: 1.6;
 }
 
+.ctaHowItWorks {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+}
+
 /* CTA Section */
 .cta {
   padding: 100px 0;
-  /* background: linear-gradient(
-    135deg,
-    var(--color-secondary) 0%,
-    var(--color-secondary-dark) 100%
-  );
-  color: white; */
+  background-color: var(--color-surface);
+  color: var(--color-text);
   text-align: center;
 }
 
 .ctaTitle {
   font-size: var(--font-size-xxl);
   margin-bottom: var(--spacing-md);
+  color: var(--color-text);
 }
 
 .ctaDescription {
   font-size: var(--font-size-lg);
   max-width: 700px;
   margin: 0 auto var(--spacing-lg);
-  opacity: 0.9;
+  color: var(--color-text-light);
+  opacity: 1;
 }
 
 .ctaButton {
   display: inline-block;
   padding: var(--spacing-md) var(--spacing-xl);
-  background-color: white;
-  color: var(--color-secondary);
   font-weight: 600;
   font-size: var(--font-size-lg);
-  border-radius: var(--border-radius-md);
-  text-decoration: none;
-  transition: all var(--transition-fast);
-}
-
-.ctaButton:hover {
-  background-color: var(--color-secondary-dark);
-  color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive */
@@ -281,7 +287,6 @@
   }
 
   .heroTitle {
-    font-size: 40px;
   }
 
   .heroSubtitle {
@@ -305,10 +310,182 @@
 
 @media (max-width: 768px) {
   .heroTitle {
-    font-size: 32px;
   }
 
   .featureGrid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Botón Outline para reutilizar */
+.primaryButtonOutline {
+  composes: secondaryButton from global;
+  /* Hereda estilos del botón secundario global */
+  /* Podemos añadir/sobrescribir si es necesario */
+}
+
+/* Ligas Activas Section */
+.ligasActivas {
+  padding: 80px 0;
+  background-color: var(--color-surface); /* Fondo ligeramente diferente */
+}
+
+.ligasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.ligaCard {
+  background-color: var(--color-background);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.ligaNombre {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.ligaDescripcion {
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1; /* Para que la descripción ocupe espacio y alinee botones */
+}
+
+.ligaInfo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.ligaStats {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  padding-top: var(--spacing-xs);
+  border-top: 1px dashed var(--color-border);
+   flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.ligaCTAButton {
+  composes: primaryButton from global; /* Reutiliza el botón primario global */
+  margin-top: auto; /* Empuja el botón al final de la tarjeta */
+  width: 100%; /* Ocupa todo el ancho */
+}
+
+/* Testimonios Section */
+.testimonios {
+  padding: 80px 0;
+  background-color: var(--color-background);
+}
+
+.testimoniosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.testimonioCard {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  position: relative;
+  padding-top: var(--spacing-xl); /* Espacio para el icono de cita */
+}
+
+.testimonioIcon {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-lg);
+  font-size: 32px;
+  color: var(--color-primary);
+  opacity: 0.5;
+}
+
+.testimonioTexto {
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+}
+
+.testimonioAutor {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-md);
+}
+
+.testimonioAvatarPlaceholder {
+  font-size: 40px;
+  color: var(--color-text-light);
+}
+
+.autorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.autorNombre {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.autorEquipo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+/* FAQ Destacadas Section */
+.faqDestacadas {
+  padding: 80px 0;
+  background-color: var(--color-surface);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Una columna por defecto */
+  gap: var(--spacing-md);
+  max-width: 800px; /* Limitar ancho para legibilidad */
+  margin: 0 auto var(--spacing-lg);
+}
+
+.faqItem {
+  background-color: var(--color-background);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.faqPregunta {
+  font-size: var(--font-size-md);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--spacing-xs);
+}
+
+.faqRespuesta {
+  color: var(--color-text-light);
+  line-height: 1.6;
+  font-size: var(--font-size-sm);
+}
+
+.ctaFaq {
+  text-align: center;
+  margin-top: var(--spacing-lg);
 }

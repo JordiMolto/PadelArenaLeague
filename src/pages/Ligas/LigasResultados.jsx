@@ -1,125 +1,165 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom'; // Importar Link para enlaces rápidos
 import styles from './Ligas.module.css';
 
-// --- Mock Data ---
-// Reutilizamos mockLigas y mockEncuentrosPorLiga de LigasEncuentros.jsx
-// En una aplicación real, estos datos vendrían de un contexto, store o API.
+// --- Mock Data Ampliado ---
 const mockLigas = [
-  { id: 'liga-verano-int', nombre: 'Liga Verano (Intermedio)', temporada: 'Verano 2024', jornadaActualNum: 3, totalJornadas: 5 },
-  { id: 'liga-invierno-av', nombre: 'Liga Invierno (Avanzado)', temporada: 'Invierno 2024', jornadaActualNum: 2, totalJornadas: 3 },
-  { id: 'liga-express-mixta', nombre: 'Liga Express Mixta', temporada: 'Primavera 2024', jornadaActualNum: 1, totalJornadas: 1 },
+  { id: 'liga-verano-int-a', nombre: 'Liga Verano (Intermedio - Grupo A)', categoria: 'Intermedio', formato: 'Dobles', temporada: 'Verano 2024', totalJornadas: 5 },
+  { id: 'liga-invierno-av', nombre: 'Liga Invierno (Avanzado)', categoria: 'Avanzado', formato: 'Dobles', temporada: 'Invierno 2024', totalJornadas: 3 },
+  { id: 'liga-primavera-mix', nombre: 'Liga Primavera (Mixta)', categoria: 'Mixta', formato: 'Dobles', temporada: 'Primavera 2024', totalJornadas: 4 },
+  { id: 'liga-otono-ind', nombre: 'Liga Otoño (Individual)', categoria: 'Masculina', formato: 'Individual', temporada: 'Otoño 2023', totalJornadas: 6 },
 ];
 
 const mockEncuentrosPorLiga = {
-  'liga-verano-int': {
+  'liga-verano-int-a': {
     1: [
-      { idPartido: 'p1', idEquipoLocal: 'equ1', nombreEquipoLocal: 'Los Dinámicos', idEquipoVisitante: 'equ2', nombreEquipoVisitante: 'Padel Trotters', fechaHora: '2024-07-15 19:00', resultado: '6-2, 6-3', status: 'Jugado' },
-      { idPartido: 'p2', idEquipoLocal: 'equ3', nombreEquipoLocal: 'Viboras Team', idEquipoVisitante: 'equ4', nombreEquipoVisitante: 'Los Martillos', fechaHora: '2024-07-16 20:00', resultado: '7-5, 6-4', status: 'Jugado' },
+      { idPartido: 'p1', equipoLocal: 'Los Dinámicos', equipoVisitante: 'Padel Trotters', fechaHora: '2024-07-15 19:00', resultado: '6-2, 6-3', status: 'Finalizado', jornadaFechaStr: '10-16 Jul' },
+      { idPartido: 'p2', equipoLocal: 'Viboras Team', equipoVisitante: 'Los Martillos', fechaHora: '2024-07-16 20:00', resultado: '7-5, 6-4', status: 'Finalizado', jornadaFechaStr: '10-16 Jul' },
     ],
     2: [
-      { idPartido: 'p3', idEquipoLocal: 'equ1', nombreEquipoLocal: 'Los Dinámicos', idEquipoVisitante: 'equ3', nombreEquipoVisitante: 'Viboras Team', fechaHora: '2024-07-22 18:00', resultado: '6-4, 3-6, 6-1', status: 'Jugado' },
-      { idPartido: 'p4', idEquipoLocal: 'equ2', nombreEquipoLocal: 'Padel Trotters', idEquipoVisitante: 'equ4', nombreEquipoVisitante: 'Los Martillos', fechaHora: '2024-07-23 21:00', resultado: '6-1, 6-0', status: 'Jugado' },
+      { idPartido: 'p3', equipoLocal: 'Los Dinámicos', equipoVisitante: 'Viboras Team', fechaHora: '2024-07-22 18:00', resultado: '6-4, 3-6, 6-1', status: 'Finalizado', jornadaFechaStr: '17-23 Jul' },
+      { idPartido: 'p4', equipoLocal: 'Padel Trotters', equipoVisitante: 'Los Martillos', fechaHora: '2024-07-23 21:00', resultado: '6-1, 6-0', status: 'Finalizado', jornadaFechaStr: '17-23 Jul' },
     ],
     3: [
-      { idPartido: 'p5', idEquipoLocal: 'equ1', nombreEquipoLocal: 'Los Dinámicos', idEquipoVisitante: 'equ4', nombreEquipoVisitante: 'Los Martillos', fechaHora: '2024-07-29 19:30', resultado: 'Cancelado', status: 'Cancelado' }, // Ejemplo de cancelado
-      { idPartido: 'p6', idEquipoLocal: 'equ2', nombreEquipoLocal: 'Padel Trotters', idEquipoVisitante: 'equ3', nombreEquipoVisitante: 'Viboras Team', fechaHora: null, resultado: null, status: 'Pendiente' },
+      { idPartido: 'p5', equipoLocal: 'Los Dinámicos', equipoVisitante: 'Los Martillos', fechaHora: '2024-07-29 19:30', resultado: 'No disputado', status: 'No Disputado', jornadaFechaStr: '24-30 Jul' },
+      { idPartido: 'p6', equipoLocal: 'Padel Trotters', equipoVisitante: 'Viboras Team', fechaHora: '2024-08-01 20:00', resultado: null, status: 'Reprogramado', jornadaFechaStr: '24-30 Jul' },
+      { idPartido: 'p6-reprogramado', equipoLocal: 'Padel Trotters', equipoVisitante: 'Viboras Team', fechaHora: '2024-08-10 11:00', resultado: null, status: 'Pendiente', jornadaFechaStr: 'Reprogramado' }, // Partido reprogramado como ejemplo
     ],
-    // ... más jornadas y partidos
+    4: [
+      { idPartido: 'p7', equipoLocal: 'Los Martillos', equipoVisitante: 'Los Dinámicos', fechaHora: null, resultado: null, status: 'Pendiente', jornadaFechaStr: '31 Jul - 6 Ago' },
+      { idPartido: 'p8', equipoLocal: 'Viboras Team', equipoVisitante: 'Padel Trotters', fechaHora: null, resultado: null, status: 'Pendiente', jornadaFechaStr: '31 Jul - 6 Ago' },
+    ],
+    // ... más jornadas
   },
   'liga-invierno-av': {
-     1: [
-        { idPartido: 'p11', idEquipoLocal: 'equ5', nombreEquipoLocal: 'Titanes del Padel', idEquipoVisitante: 'equ6', nombreEquipoVisitante: 'Furia Roja', fechaHora: '2024-01-10 20:00', resultado: '6-1, 6-2', status: 'Jugado' },
-     ],
-     2: [
-        { idPartido: 'p12', idEquipoLocal: 'equ6', nombreEquipoLocal: 'Furia Roja', idEquipoVisitante: 'equ5', nombreEquipoVisitante: 'Titanes del Padel', fechaHora: '2024-01-17 20:00', resultado: 'Walkover (Visitante no se presentó)', status: 'Walkover' }, // Ejemplo Walkover
-     ],
-      3: [
-        { idPartido: 'p13', idEquipoLocal: 'equ5', nombreEquipoLocal: 'Titanes del Padel', idEquipoVisitante: 'equ6', nombreEquipoVisitante: 'Furia Roja', fechaHora: null, resultado: null, status: 'Pendiente' },
-     ],
+    1: [
+      { idPartido: 'p11', equipoLocal: 'Titanes del Padel', equipoVisitante: 'Furia Roja', fechaHora: '2024-01-10 20:00', resultado: '6-1, 6-2', status: 'Finalizado', jornadaFechaStr: '8-14 Ene' },
+    ],
+    2: [
+      { idPartido: 'p12', equipoLocal: 'Furia Roja', equipoVisitante: 'Titanes del Padel', fechaHora: '2024-01-17 20:00', resultado: 'Walkover (Local)', status: 'Incomparecencia', jornadaFechaStr: '15-21 Ene' },
+    ],
+    3: [
+      { idPartido: 'p13', equipoLocal: 'Titanes del Padel', equipoVisitante: 'Furia Roja', fechaHora: null, resultado: null, status: 'Pendiente', jornadaFechaStr: '22-28 Ene' },
+    ]
   }
+  // ... más ligas
 };
 // --- Fin Mock Data ---
 
 const LigasResultados = () => {
-  const [ligas, setLigas] = useState([]);
+  // Estados de Filtros
+  const [temporadas, setTemporadas] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [formatos, setFormatos] = useState([]);
+  const [jornadas, setJornadas] = useState([]); // Opciones de jornada para la liga seleccionada
+
+  const [filtroTemporada, setFiltroTemporada] = useState('Todas');
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
+  const [filtroFormato, setFiltroFormato] = useState('Todos');
   const [ligaSeleccionadaId, setLigaSeleccionadaId] = useState('');
-  const [jornadaFiltro, setJornadaFiltro] = useState('Todas'); // 'Todas' o un número de jornada
-  const [busquedaEquipo, setBusquedaEquipo] = useState('');
-  const [jornadasOptions, setJornadasOptions] = useState(['Todas']);
+  const [filtroJornada, setFiltroJornada] = useState('Todas');
+  const [busqueda, setBusqueda] = useState('');
+
+  // Estado para simular login (para mostrar botón de subir resultado)
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Cambiar a false para probar
 
   useEffect(() => {
-    setLigas([{ id: '', nombre: 'Selecciona una liga...' }, ...mockLigas]);
+    // Extraer opciones únicas para filtros globales
+    const todasTemporadas = ['Todas', ...new Set(mockLigas.map(l => l.temporada))];
+    const todasCategorias = ['Todas', ...new Set(mockLigas.map(l => l.categoria))];
+    const todosFormatos = ['Todos', ...new Set(mockLigas.map(l => l.formato))];
+    setTemporadas(todasTemporadas);
+    setCategorias(todasCategorias);
+    setFormatos(todosFormatos);
   }, []);
 
+  // Ligas que coinciden con los filtros globales
+  const ligasDisponibles = useMemo(() => {
+    return mockLigas.filter(liga =>
+      (filtroTemporada === 'Todas' || liga.temporada === filtroTemporada) &&
+      (filtroCategoria === 'Todas' || liga.categoria === filtroCategoria) &&
+      (filtroFormato === 'Todos' || liga.formato === filtroFormato)
+    );
+  }, [filtroTemporada, filtroCategoria, filtroFormato]);
+
+  // Actualizar opciones de jornada cuando cambia la liga seleccionada
   useEffect(() => {
     if (ligaSeleccionadaId) {
       const ligaData = mockLigas.find(l => l.id === ligaSeleccionadaId);
-      if (ligaData) {
-        const numJornadas = ligaData.totalJornadas || 0;
+      if (ligaData && mockEncuentrosPorLiga[ligaSeleccionadaId]) {
+        const numJornadas = ligaData.totalJornadas || Object.keys(mockEncuentrosPorLiga[ligaSeleccionadaId]).length;
         const options = ['Todas'];
         for (let i = 1; i <= numJornadas; i++) {
-          options.push(`${i}`);
+          options.push(`Jornada ${i}`);
         }
-        setJornadasOptions(options);
-        setJornadaFiltro('Todas'); // Resetear filtro de jornada al cambiar de liga
+        setJornadas(options);
+      } else {
+        setJornadas(['Todas']);
       }
     } else {
-      setJornadasOptions(['Todas']);
-      setJornadaFiltro('Todas');
+      setJornadas(['Todas']);
     }
+    setFiltroJornada('Todas'); // Resetear al cambiar liga
   }, [ligaSeleccionadaId]);
 
-  const resultadosFiltrados = useMemo(() => {
-    if (!ligaSeleccionadaId) return [];
+  // Filtrar y agrupar resultados
+  const resultadosAgrupados = useMemo(() => {
+    if (!ligaSeleccionadaId || !mockEncuentrosPorLiga[ligaSeleccionadaId]) return {};
 
-    const encuentrosDeLiga = mockEncuentrosPorLiga[ligaSeleccionadaId];
-    if (!encuentrosDeLiga) return [];
+    const encuentros = mockEncuentrosPorLiga[ligaSeleccionadaId];
+    const agrupados = {};
+    const jornadaNumFiltrar = filtroJornada === 'Todas' ? null : parseInt(filtroJornada.split(' ')[1], 10);
+    const busquedaLower = busqueda.toLowerCase();
 
-    let todosLosResultados = [];
-    Object.keys(encuentrosDeLiga).forEach(numJornada => {
-      encuentrosDeLiga[numJornada].forEach(partido => {
-        if (partido.status === 'Jugado' || partido.status === 'Walkover' || partido.status === 'Cancelado') { // Incluimos diferentes estados finales
-          todosLosResultados.push({ ...partido, jornada: parseInt(numJornada, 10) });
-        }
-      });
-    });
+    Object.keys(encuentros).forEach(numJornada => {
+      const jornadaActualNum = parseInt(numJornada, 10);
+      if (jornadaNumFiltrar !== null && jornadaActualNum !== jornadaNumFiltrar) {
+        return; // Saltar jornada si no coincide con el filtro
+      }
 
-    // Filtrar por jornada seleccionada
-    if (jornadaFiltro !== 'Todas') {
-      todosLosResultados = todosLosResultados.filter(r => r.jornada === parseInt(jornadaFiltro, 10));
-    }
-
-    // Filtrar por búsqueda de equipo
-    if (busquedaEquipo) {
-      const busquedaLower = busquedaEquipo.toLowerCase();
-      todosLosResultados = todosLosResultados.filter(r =>
-        r.nombreEquipoLocal.toLowerCase().includes(busquedaLower) ||
-        r.nombreEquipoVisitante.toLowerCase().includes(busquedaLower)
+      const partidosFiltrados = encuentros[numJornada].filter(partido =>
+        busquedaLower === '' ||
+        partido.equipoLocal.toLowerCase().includes(busquedaLower) ||
+        partido.equipoVisitante.toLowerCase().includes(busquedaLower)
       );
-    }
-    
-    // Ordenar por jornada y luego por fecha si existe
-    return todosLosResultados.sort((a, b) => {
-        if (a.jornada !== b.jornada) {
-            return a.jornada - b.jornada;
-        }
-        if (a.fechaHora && b.fechaHora) {
-            return new Date(a.fechaHora) - new Date(b.fechaHora);
-        }
-        return 0;
+
+      if (partidosFiltrados.length > 0) {
+        // Usar jornadaFechaStr del primer partido como cabecera (o calcularla)
+        const jornadaHeader = partidosFiltrados[0].jornadaFechaStr || `Jornada ${numJornada}`;
+        agrupados[jornadaHeader] = partidosFiltrados;
+      }
     });
 
-  }, [ligaSeleccionadaId, jornadaFiltro, busquedaEquipo]);
+    return agrupados;
+  }, [ligaSeleccionadaId, filtroJornada, busqueda]);
 
-  const ligaSeleccionadaNombre = mockLigas.find(l => l.id === ligaSeleccionadaId)?.nombre || '';
+  // Últimos 5 resultados finalizados
+  const ultimosResultados = useMemo(() => {
+    if (!ligaSeleccionadaId || !mockEncuentrosPorLiga[ligaSeleccionadaId]) return [];
+    const todosLosPartidos = Object.values(mockEncuentrosPorLiga[ligaSeleccionadaId]).flat();
+    return todosLosPartidos
+      .filter(p => p.status === 'Finalizado')
+      .sort((a, b) => new Date(b.fechaHora) - new Date(a.fechaHora)) // Ordenar por fecha descendente
+      .slice(0, 5);
+  }, [ligaSeleccionadaId]);
 
-  const getStatusClass = (status) => {
-    if (status === 'Jugado') return styles.statusJugado;
-    if (status === 'Walkover') return styles.statusPendiente; // Podríamos crear un estilo específico para Walkover
-    if (status === 'Cancelado') return styles.statusCancelado; // Podríamos crear un estilo específico para Cancelado
-    return '';
+  // Helper para icono de estado
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'Finalizado': return { icon: '✅', className: styles.statusFinalizado };
+      case 'No Disputado':
+      case 'Incomparecencia': return { icon: '❌', className: styles.statusNoDisputado };
+      case 'Reprogramado': return { icon: '📅', className: styles.statusReprogramado };
+      case 'Pendiente': return { icon: '⏳', className: styles.statusPendienteResultado };
+      default: return { icon: '❔', className: styles.statusDesconocido };
+    }
   };
 
+  const handleSubirResultadoClick = () => {
+    alert('Funcionalidad para subir resultado aún no implementada.');
+  };
+
+  const ligaSeleccionadaNombre = mockLigas.find(l => l.id === ligaSeleccionadaId)?.nombre || '';
 
   return (
     <div className={styles.profileContainer}>
@@ -127,70 +167,110 @@ const LigasResultados = () => {
         <div className={styles.profileCard}>
           <h1 className={styles.pageTitle}>Resultados de Ligas</h1>
           <p className={styles.pageDescription}>
-            Consulta los resultados de los partidos finalizados. Filtra por liga, jornada o equipo.
+            Consulta los resultados por jornada. Utiliza los filtros para acotar tu búsqueda.
           </p>
 
-          <div className={styles.filtrosContainerEncuentros}> {/* Reutilizamos clase de filtros de encuentros */}
+          {/* --- Filtros --- */}
+          <div className={`${styles.filtrosContainerClasificacion} ${styles.filtrosResultadosLiga}`}> {/* Usar clase base y añadir específica */}
             <div className={styles.filtroItem}>
+              <label htmlFor="filtroTemporadaRes">Temporada:</label>
+              <select id="filtroTemporadaRes" value={filtroTemporada} onChange={(e) => setFiltroTemporada(e.target.value)}>
+                {temporadas.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div className={styles.filtroItem}>
+              <label htmlFor="filtroCategoriaRes">Categoría:</label>
+              <select id="filtroCategoriaRes" value={filtroCategoria} onChange={(e) => setFiltroCategoria(e.target.value)}>
+                {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </select>
+            </div>
+            <div className={styles.filtroItem}>
+              <label htmlFor="filtroFormatoRes">Formato:</label>
+              <select id="filtroFormatoRes" value={filtroFormato} onChange={(e) => setFiltroFormato(e.target.value)}>
+                {formatos.map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            {/* Selector de Liga basado en filtros anteriores */}
+            <div className={styles.filtroItemFullWidth}>
               <label htmlFor="ligaSelectResultados">Liga:</label>
-              <select id="ligaSelectResultados" value={ligaSeleccionadaId} onChange={(e) => setLigaSeleccionadaId(e.target.value)}>
-                {ligas.map(liga => <option key={liga.id} value={liga.id}>{liga.nombre}</option>)}
+              <select id="ligaSelectResultados" value={ligaSeleccionadaId} onChange={(e) => setLigaSeleccionadaId(e.target.value)} disabled={ligasDisponibles.length === 0}>
+                <option value="">{ligasDisponibles.length === 0 ? '(No hay ligas)' : '-- Selecciona Liga --'}</option>
+                {ligasDisponibles.map(liga => <option key={liga.id} value={liga.id}>{liga.nombre}</option>)}
               </select>
             </div>
             <div className={styles.filtroItem}>
-              <label htmlFor="jornadaFiltroResultados">Jornada:</label>
-              <select id="jornadaFiltroResultados" value={jornadaFiltro} onChange={(e) => setJornadaFiltro(e.target.value)} disabled={!ligaSeleccionadaId}>
-                {jornadasOptions.map(opt => (
-                  <option key={opt} value={opt}>{opt === 'Todas' ? 'Todas las Jornadas' : `Jornada ${opt}`}</option>
-                ))}
+              <label htmlFor="filtroJornadaRes">Jornada:</label>
+              <select id="filtroJornadaRes" value={filtroJornada} onChange={(e) => setFiltroJornada(e.target.value)} disabled={!ligaSeleccionadaId}>
+                {jornadas.map(j => <option key={j} value={j}>{j}</option>)}
               </select>
             </div>
             <div className={styles.filtroItem}>
-              <label htmlFor="busquedaEquipoResultados">Buscar por Equipo:</label>
-              <input
-                type="text"
-                id="busquedaEquipoResultados"
-                placeholder="Nombre del equipo..."
-                value={busquedaEquipo}
-                onChange={(e) => setBusquedaEquipo(e.target.value)}
-                disabled={!ligaSeleccionadaId}
-              />
+              <label htmlFor="busquedaRes">Buscar:</label>
+              <input type="text" id="busquedaRes" placeholder="Equipo/Jugador..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} disabled={!ligaSeleccionadaId} />
             </div>
           </div>
 
-          {ligaSeleccionadaId ? (
-            <div className={styles.encuentrosContainer}> {/* Reutilizamos clase de container de encuentros */}
-              <h2 className={styles.subPageTitle}>
-                Resultados: {ligaSeleccionadaNombre}
-                {jornadaFiltro !== 'Todas' && ` - Jornada ${jornadaFiltro}`}
-              </h2>
-              {resultadosFiltrados.length > 0 ? (
-                resultadosFiltrados.map(partido => (
-                  <div key={partido.idPartido} className={styles.encuentroCard}>
-                    <div className={styles.equipoInfo}>
-                      <span className={styles.equipoLocal}>{partido.nombreEquipoLocal}</span>
-                      <span className={styles.vs}>vs</span>
-                      <span className={styles.equipoVisitante}>{partido.nombreEquipoVisitante}</span>
-                    </div>
-                    <div className={styles.resultadoInfo}>
-                      <span className={`${styles.resultado} ${getStatusClass(partido.status)}`}>
-                        {partido.resultado || partido.status}
-                      </span>
-                    </div>
-                    <div className={styles.fechaHoraInfo}>
-                      Jornada {partido.jornada}
-                      {partido.fechaHora && ` - ${new Date(partido.fechaHora).toLocaleDateString('es-ES')}`}
-                    </div>
+          {/* --- Últimos Resultados --- */}
+          {ligaSeleccionadaId && ultimosResultados.length > 0 && (
+            <div className={styles.ultimosResultadosContainer}>
+              <h3 className={styles.smallSectionTitle}>Últimos Resultados Finalizados</h3>
+              <div className={styles.ultimosResultadosScroll}>
+                {ultimosResultados.map(partido => (
+                  <div key={partido.idPartido} className={styles.ultimosResultadosCard}>
+                    <span>{partido.equipoLocal} <strong>vs</strong> {partido.equipoVisitante}</span>
+                    <span>{partido.resultado}</span>
                   </div>
-                ))
-              ) : (
-                <p className={styles.infoMessage}>
-                  No hay resultados que coincidan con los filtros seleccionados.
-                </p>
-              )}
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* --- Lista Principal de Resultados por Jornada --- */}
+          {ligaSeleccionadaId ? (
+            Object.keys(resultadosAgrupados).length > 0 ? (
+              Object.entries(resultadosAgrupados).map(([jornadaHeader, partidos]) => (
+                <div key={jornadaHeader} className={styles.jornadaGroup}>
+                  <h2 className={styles.jornadaHeader}>{jornadaHeader}</h2>
+                  {partidos.map(partido => {
+                    const statusInfo = getStatusIcon(partido.status);
+                    return (
+                      <div key={partido.idPartido} className={styles.resultadoItemCard}>
+                        <div className={styles.resultadoEquipos}>
+                          {partido.equipoLocal} <span className={styles.vsResultado}>vs</span> {partido.equipoVisitante}
+                        </div>
+                        <div className={styles.resultadoResultado}>
+                          {partido.resultado || '-'}
+                        </div>
+                        <div className={`${styles.resultadoStatus} ${statusInfo.className}`}>
+                          {statusInfo.icon} {partido.status}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            ) : (
+              <p className={styles.infoMessage}>No se encontraron resultados para los filtros seleccionados en "{ligaSeleccionadaNombre}".</p>
+            )
           ) : (
             <p className={styles.infoMessage}>Selecciona una liga para ver los resultados.</p>
+          )}
+
+          {/* --- Sección Subir Resultado (Simulada) --- */}
+          {isLoggedIn && ligaSeleccionadaId && (
+            <div className={styles.subirResultadoSection}>
+              <button onClick={handleSubirResultadoClick} className={`button ${styles.subirResultadoBtn}`}>⬆️ Subir Resultado Pendiente</button>
+            </div>
+          )}
+
+          {/* --- Acciones Útiles --- */}
+          {ligaSeleccionadaId && (
+            <div className={styles.accionesUtiles}>
+              <Link to="/ligas/clasificacion" className={styles.accionUtilLink}>📈 Ver Clasificación</Link>
+              <Link to="/ligas/encuentros" className={styles.accionUtilLink}>📅 Ver Encuentros</Link>
+              <a href="#" onClick={(e) => e.preventDefault()} className={styles.accionUtilLink}>📖 Reglas Resultados</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className={styles.accionUtilLink}>🛠️ Reportar Incidencia</a>
+            </div>
           )}
         </div>
       </div>

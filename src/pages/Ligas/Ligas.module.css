@@ -5,7 +5,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #f4f7f6; /* Un gris muy claro para el fondo general */
+    /* background-color: var(--color-surface); */ /* Eliminado, hereda blanco */
     min-height: 100vh;
 }
 
@@ -16,21 +16,19 @@
 }
 
 .profileCard {
-    background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center; /* Centrar texto en la tarjeta inicialmente */
 }
 
 .pageTitle {
-    color: #333;
-    font-size: 2.5em;
+    /* Heredará color de h1 global (oscuro) */
+    /* font-size: 2.5em; */ /* Eliminado */
     margin-bottom: 15px;
 }
 
 .pageDescription {
-    color: #666;
+    color: var(--color-text-light); /* Gris medio */
     font-size: 1.1em;
     margin-bottom: 30px;
     line-height: 1.6;
@@ -56,6 +54,7 @@
     color: #0056b3; /* Un azul para los títulos de los items */
     margin-top: 0;
     margin-bottom: 10px;
+    /* font-size no es necesario aquí si hereda de h2 global */
 }
 
 /* Estilos para botones */
@@ -119,16 +118,17 @@
 
 .formGroup label {
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
+    font-weight: normal;
+    color: var(--color-text-light); /* Gris medio */
+    font-family: var(--font-family-secondary);
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: var(--font-size-sm);
 }
 
 .formInput,
-.form select { /* Incluir select en los estilos */
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
+.form select { /* Heredan estilos de global.css */
+   font-family: var(--font-family-secondary); /* Asegurar Roboto */
 }
 
 .formInput:focus,
@@ -147,21 +147,11 @@
 
 /* Mensajes de error y éxito */
 .errorMessage {
-    color: #D8000C; /* Rojo oscuro */
-    background-color: #FFD2D2; /* Rojo claro */
-    border: 1px solid #D8000C;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+  composes: error-message from "../../styles/global.css";
 }
 
 .successMessage {
-    color: #270; /* Verde oscuro */
-    background-color: #DFF2BF; /* Verde claro */
-    border: 1px solid #270;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+  composes: success-message from "../../styles/global.css";
 }
 
 /* Detalles de Liga - Subsecciones */
@@ -180,7 +170,7 @@
 .subSections h2 {
     color: #0056b3;
     margin-top: 0;
-    font-size: 1.5em;
+    /* font-size: 1.5em; */ /* Eliminado */
 }
 
 /* Estilos para la sección de Ligas Disponibles */
@@ -189,43 +179,44 @@
   text-align: left;
 }
 
-.subPageTitle { /* Para títulos H2 dentro de la card */
-  font-size: 1.8em;
-  color: #333;
-  margin-top: 30px; /* Espacio antes del título de sección */
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
+.subPageTitle {
+    /* Heredará color de h2 global (oscuro) */
+    /* font-size: 1.8em; */ /* Eliminado */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-border); /* Borde gris claro */
 }
 
 .ligaDisponibleItem {
-  background-color: #f9f9f9;
-  padding: 15px 20px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #e0e0e0;
+    background-color: var(--color-surface); /* Fondo gris claro */
+    padding: 15px 20px;
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 15px;
+    border: 1px solid var(--color-border); /* Borde gris claro */
 }
 
 .ligaDisponibleItem h3 {
-  color: #0056b3;
-  margin-top: 0;
-  margin-bottom: 5px;
-  font-size: 1.2em;
+    /* Hereda de h3 global (oscuro) */
+    margin-top: 0;
+    margin-bottom: 5px;
+    /* font-size: 1.2em; */ /* Eliminado */
 }
 
 .ligaDisponibleItem p {
-  font-size: 0.95em;
-  color: #555;
-  line-height: 1.5;
-  margin-bottom: 0;
+    font-size: 0.95em;
+    color: var(--color-text-light); /* Descripción gris medio */
+    line-height: 1.5;
+    margin-bottom: 0;
+    font-family: var(--font-family-secondary);
 }
 
 .divider {
-  border: none;
-  height: 1px;
-  background-color: #ddd;
-  margin-top: 20px;
-  margin-bottom: 40px;
+    border: none;
+    height: 1px;
+    background-color: var(--color-border); /* Divisor gris claro */
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 /* Estilos adicionales para el formulario */
@@ -295,9 +286,12 @@
 }
 
 .filtroItem label {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 0.9em;
-  color: #555;
+  color: var(--color-text-light); /* Gris medio */
+  font-family: var(--font-family-secondary);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .filtroItem input[type="text"],
@@ -348,17 +342,20 @@
 }
 
 .tablaClasificacion th {
-  background-color: #e9ecef; /* Un gris claro para los encabezados */
-  color: #333;
-  font-weight: bold;
+  background-color: var(--color-surface); /* Encabezado tabla gris claro */
+  color: var(--color-text); /* Texto oscuro */
+  font-weight: bold; /* Mantener bold */
 }
 
 .tablaClasificacion tbody tr:nth-child(even) {
-  background-color: #f8f9fa; /* Filas alternas con un color sutil */
+  background-color: var(--color-background); /* Fondo blanco */
+}
+.tablaClasificacion tbody tr:nth-child(odd) {
+  background-color: var(--color-surface); /* Fondo gris claro */
 }
 
 .tablaClasificacion tbody tr:hover {
-  background-color: #f1f1f1; /* Hover para filas */
+  background-color: #e9ecef; /* Hover un poco más oscuro */
 }
 
 /* Alineación específica para algunas columnas */
@@ -414,6 +411,15 @@
     padding: 8px 6px; /* Menos padding en móvil */
     font-size: 0.85em; /* Fuente más pequeña */
   }
+  /* Ocultar columnas menos importantes en móvil si es necesario */
+  .tablaClasificacion th:nth-child(7),
+  .tablaClasificacion td:nth-child(7),
+  .tablaClasificacion th:nth-child(8),
+  .tablaClasificacion td:nth-child(8),
+  .tablaClasificacion th:nth-child(9),
+  .tablaClasificacion td:nth-child(9) {
+      display: none; /* Ocultar SF, SC, +/- por defecto en móvil */
+  }
 }
 
 /* Estilos para la página de Equipos de Ligas */
@@ -456,7 +462,7 @@
 }
 
 .tarjetaEquipo h3 {
-  font-size: 1.1em;
+  /* font-size: 1.1em; */ /* Eliminado */
   color: #333;
   margin: 10px 0 5px 0;
 }
@@ -531,7 +537,7 @@
 }
 
 .tarjetaJugador h3 {
-  font-size: 1.1em;
+  /* font-size: 1.1em; */ /* Eliminado */
   color: #333;
   margin: 8px 0 5px 0;
 }
@@ -682,4 +688,854 @@
    .resultadoInfo {
      margin: 10px 0; /* Añadir espacio vertical */
    }
+}
+
+/* Estilos para el Resumen de Clasificación */
+.resumenClasificacion {
+  background-color: var(--color-surface);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-around; /* Distribuir items */
+  flex-wrap: wrap; /* Ajustar en pantallas pequeñas */
+  gap: var(--spacing-md);
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.resumenClasificacion div {
+  text-align: center;
+}
+
+.resumenClasificacion strong {
+  color: var(--color-primary);
+  display: block; /* Poner el título encima */
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Estilos para los últimos 5 resultados */
+.ultimos5Container {
+  display: flex;
+  gap: 2px; /* Espacio mínimo entre iconos */
+  justify-content: center; /* Centrar los iconos */
+}
+
+.resultadoIconoSpan {
+  display: inline-block;
+  width: 18px; /* Ancho fijo para alinear */
+  height: 18px; /* Alto fijo */
+  line-height: 18px; /* Centrar icono verticalmente */
+  text-align: center;
+  border-radius: 3px; /* Ligeramente redondeado */
+  font-size: 12px; /* Tamaño del icono */
+  font-weight: bold;
+}
+
+.resVictoria {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+
+.resDerrota {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+}
+
+.resEmpate {
+  background-color: #ffc107; /* Amarillo */
+  color: #333;
+}
+
+.resDesconocido {
+  background-color: #e0e0e0; /* Gris claro */
+  color: #666;
+}
+
+/* Estilos para Ayudas y CTAs */
+.ayudasContainer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.ayudaLink {
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ayudaLink:hover {
+  text-decoration: underline;
+  color: var(--color-orange-accent);
+}
+
+/* Estilos para la Página de Resultados de Ligas */
+.filtrosResultadosLiga {
+  /* Ajustar si es necesario, por ejemplo, más espacio */
+  /* gap: 15px; */
+}
+
+/* Sección Últimos Resultados */
+.ultimosResultadosContainer {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.smallSectionTitle {
+  font-size: var(--font-size-md); /* Título más pequeño */
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+  text-align: left;
+  font-family: var(--font-family-secondary); /* Usar Roboto */
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ultimosResultadosScroll {
+  display: flex;
+  overflow-x: auto; /* Scroll horizontal */
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm); /* Espacio para la barra de scroll */
+}
+
+.ultimosResultadosCard {
+  flex: 0 0 auto; /* Evitar que las tarjetas se encojan */
+  background-color: var(--color-background);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-family-secondary);
+  white-space: nowrap; /* Evitar saltos de línea */
+  text-align: center;
+}
+
+.ultimosResultadosCard span:first-child {
+  display: block; /* Poner equipos en una línea */
+  margin-bottom: 2px;
+}
+.ultimosResultadosCard span:last-child {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+/* Agrupación por Jornada */
+.jornadaGroup {
+  margin-top: var(--spacing-lg);
+}
+
+.jornadaHeader {
+  font-size: var(--font-size-lg); /* Ajustar tamaño si es necesario */
+  color: var(--color-primary-dark);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-secondary);
+  text-align: left;
+  font-family: var(--font-family-secondary);
+  text-transform: none; /* No uppercase */
+  letter-spacing: normal;
+}
+
+/* Item de Resultado Individual */
+.resultadoItemCard {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr; /* Ajustar proporciones: Equipos | Resultado | Estado */
+  align-items: center;
+  gap: var(--spacing-md);
+  background-color: #fff;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-family-secondary);
+}
+
+.resultadoEquipos {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.vsResultado {
+  color: var(--color-text-light);
+  font-weight: normal;
+  margin: 0 var(--spacing-xs);
+}
+
+.resultadoResultado {
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  text-align: center;
+}
+
+.resultadoStatus {
+  font-size: var(--font-size-sm);
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-xs);
+}
+
+/* Clases de estado (algunas pueden reutilizar las de la tabla) */
+.statusFinalizado { color: #198754; } /* Verde */
+.statusNoDisputado { color: #dc3545; } /* Rojo */
+.statusIncomparecencia { color: #dc3545; } /* Rojo */
+.statusReprogramado { color: #fd7e14; } /* Naranja */
+.statusPendienteResultado { color: #6c757d; } /* Gris */
+.statusDesconocido { color: #adb5bd; } /* Gris claro */
+
+/* Sección Subir Resultado */
+.subirResultadoSection {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px dashed var(--color-border);
+  text-align: center;
+}
+
+.subirResultadoBtn {
+  /* Hereda estilos de .button, podemos ajustar aquí */
+  background-color: var(--color-orange-accent);
+  border-color: var(--color-orange-accent);
+  color: var(--color-text);
+}
+
+.subirResultadoBtn:hover {
+  background-color: var(--color-orange-accent-dark);
+  border-color: var(--color-orange-accent-dark);
+  color: var(--color-text);
+}
+
+/* Acciones Útiles */
+.accionesUtiles {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+
+.accionUtilLink {
+  composes: ayudaLink; /* Hereda estilos base del link de ayuda */
+  /* Podemos añadir estilos específicos si es necesario */
+  /* background-color: var(--color-surface); */
+  /* padding: var(--spacing-xs) var(--spacing-sm); */
+  /* border: 1px solid var(--color-border); */
+  /* border-radius: var(--border-radius-sm); */
+}
+
+/* Responsive para Resultados */
+@media (max-width: 768px) {
+  .resultadoItemCard {
+    grid-template-columns: 1fr; /* Apilar todo en móvil */
+    text-align: center;
+  }
+  .resultadoEquipos,
+  .resultadoResultado,
+  .resultadoStatus {
+    text-align: center;
+    justify-content: center;
+  }
+  .resultadoStatus {
+     margin-top: var(--spacing-xs);
+  }
+}
+
+/* Estilos Adicionales para la Vista de Tarjeta de Equipo */
+.jugadoresEnTarjeta {
+  font-size: 0.8em;
+  color: #777;
+  margin-bottom: 8px;
+  min-height: 30px; /* Para alinear tarjetas con diferente número de jugadores */
+}
+
+.jugadoresEnTarjeta span {
+  display: inline;
+}
+
+.statsEnTarjeta {
+  font-size: 0.75em;
+  color: #555;
+  display: flex;
+  justify-content: space-around;
+  gap: 5px; /* Espacio entre stats */
+  margin-bottom: 8px;
+  border-top: 1px solid var(--color-border-light);
+  padding-top: 5px;
+}
+
+.statsEnTarjeta span {
+  background-color: var(--color-surface-secondary);
+  padding: 2px 4px;
+  border-radius: var(--border-radius-sm);
+}
+
+
+/* Estilos Adicionales para la Vista de Detalle del Equipo */
+.detalleLigaInfo {
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+  font-family: var(--font-family-secondary);
+}
+
+.detalleEquipoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Dos columnas: Info general | Stats y Partidos */
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.detalleColumna {
+  /* background-color: #fcfcfc; */ /* Podría tener un fondo sutil */
+  /* padding: var(--spacing-md); */
+  /* border-radius: var(--border-radius-md); */
+}
+
+.componentesDetalleList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.jugadorDetalleItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.jugadorDetalleItem:last-child {
+  border-bottom: none;
+}
+
+.jugadorIconoSmall {
+  font-size: 1.8em;
+  color: var(--color-text-light);
+}
+
+.jugadorInfoDetalle {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-sm);
+}
+
+.jugadorInfoDetalle strong {
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+}
+
+.jugadorInfoDetalle span {
+  color: var(--color-text-light);
+  font-size: var(--font-size-xs);
+}
+
+.ultimosPartidosDetalleList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.partidoDetalleItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.partidoDetalleItem span:first-child { /* Rival */
+  font-weight: 500;
+}
+
+.partidoDetalleItem span:nth-child(2) { /* Resultado */
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.partidoFechaDetalle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.partidoResultadoNormal {
+  /* Estilo base, se puede expandir para W/L/D */
+}
+
+/* Responsive para Detalle de Equipo */
+@media (max-width: 992px) {
+  .detalleEquipoGrid {
+    grid-template-columns: 1fr; /* Apilar columnas */
+  }
+}
+
+@media (max-width: 768px) {
+  .tarjetaEquipo h3 {
+    font-size: 1em; /* Reducir un poco en móvil para que no se corte */
+  }
+  .jugadoresEnTarjeta {
+    min-height: 25px; /* Menos altura en móvil */
+    font-size: 0.75em;
+  }
+  .statsEnTarjeta {
+    font-size: 0.7em;
+  }
+  .ligaEnTarjeta {
+    font-size: 0.75em;
+  }
+  .detalleEquipoIcono {
+    font-size: 5em;
+  }
+  .tablaEstadisticasEquipo td {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+  .partidoDetalleItem {
+    flex-direction: column; /* Apilar info del partido */
+    align-items: flex-start;
+    gap: var(--spacing-xxs);
+  }
+}
+
+/* Estilos para la página de Encuentros de Liga - Versión Lista Agrupada */
+
+.filtrosGridMultiples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-md);
+  align-items: flex-end; /* Alinear labels y selects */
+}
+
+.jornadaGroupEncuentros {
+  margin-top: var(--spacing-lg);
+}
+
+/* Reutilizar .jornadaHeader si el estilo es el mismo */
+/* Si necesitas un estilo diferente para el header de encuentros:
+.jornadaHeaderEncuentros {
+  composes: jornadaHeader; // Hereda estilos base
+  // ... estilos específicos aquí ...
+}
+*/
+
+.encuentroListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
+  background-color: var(--color-background);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-left-color var(--transition-fast);
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: transparent; /* Default, se coloreará por estado */
+  flex-wrap: wrap; /* Para ajustar en pantallas pequeñas */
+  gap: var(--spacing-sm);
+}
+
+.encuentroListItem:hover {
+  background-color: var(--color-surface);
+}
+
+.encuentroEquipos {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--color-text);
+  flex: 2; /* Dar más espacio a los equipos */
+  min-width: 200px;
+}
+
+.vsEncuentro {
+  font-weight: normal;
+  color: var(--color-text-light);
+  margin: 0 var(--spacing-xs);
+}
+
+.encuentroResultadoStatus {
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 150px;
+  text-align: right;
+}
+
+/* Clases de estado para la lista de encuentros */
+.statusPendienteEncuentro { border-left-color: #ffc107; } /* Amarillo */
+.statusFinalizadoEncuentro { border-left-color: #198754; } /* Verde */
+.statusNoDisputadoEncuentro { border-left-color: #dc3545; } /* Rojo */
+.statusReprogramadoEncuentro { border-left-color: #fd7e14; } /* Naranja */
+.statusDesconocidoEncuentro { border-left-color: #adb5bd; } /* Gris claro */
+
+/* Contenedor y botones de acciones */
+.accionesEncuentrosContainer {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px dashed var(--color-border);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.accionEncuentroBtn {
+  /* Hereda estilos de .button */
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive para la lista de encuentros */
+@media (max-width: 768px) {
+  .filtrosGridMultiples {
+     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ajustar tamaño mínimo */
+     gap: var(--spacing-sm);
+  }
+  .encuentroListItem {
+    flex-direction: column; /* Apilar elementos */
+    align-items: flex-start; /* Alinear a la izquierda */
+  }
+  .encuentroResultadoStatus {
+    justify-content: flex-start; /* Alinear estado a la izquierda */
+    width: 100%; /* Ocupar todo el ancho */
+  }
+  .accionesEncuentrosContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .accionEncuentroBtn {
+    width: 100%;
+  }
+}
+
+/* --- Estilos para la página de Inscripción a Ligas --- */
+
+/* Hero Section */
+.inscripcionHero {
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.heroCTAButtonInscripcion {
+  /* Hereda de .button global, podemos ajustar */
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-md) var(--spacing-xl);
+}
+
+/* Ligas Abiertas Section */
+.ligasAbiertasSection {
+  margin-bottom: var(--spacing-xl);
+}
+
+.ligasDisponiblesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.ligaCardInscripcion {
+  background-color: var(--color-background);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Para los tags */
+}
+
+.ligaCardTags {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.tag {
+  font-size: var(--font-size-xs);
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 2px 6px;
+  border-radius: var(--border-radius-sm);
+}
+
+.ligaCardInscripcion h3 {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-md); /* Espacio extra por si hay tags */
+}
+
+.ligaCardInscripcion p {
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.ligaCardInfo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.ligaCardCTA {
+  /* Hereda de button-outline global */
+  margin-top: auto; /* Empujar botón al final */
+  width: 100%;
+}
+
+/* Cómo Funciona Inscripción */
+.comoFuncionaInscripcion {
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-surface);
+  margin-bottom: var(--spacing-xl);
+}
+
+.inscripcionPasosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pasoItem {
+  /* background-color: var(--color-background); */
+  /* padding: var(--spacing-md); */
+  /* border-radius: var(--border-radius-md); */
+}
+
+.pasoIcon {
+  font-size: 48px;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  display: inline-block;
+}
+
+.pasoItem h4 {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pasoItem p {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+}
+
+.enlacesReglamentoFaq {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.enlaceSecundario {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+}
+.enlaceSecundario:hover {
+  text-decoration: underline;
+  color: var(--color-orange-accent);
+}
+
+/* Beneficios Inscripción */
+.beneficiosInscripcion {
+  padding: var(--spacing-lg) 0;
+  margin-bottom: var(--spacing-xl);
+}
+
+.beneficiosList {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-sm) var(--spacing-lg);
+}
+
+.beneficiosList li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.beneficiosList li span {
+  color: var(--color-primary);
+}
+
+/* Formulario Mejorado */
+.formularioSection {
+  padding: var(--spacing-lg);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.formSectionTitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-top: var(--spacing-lg); 
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.availabilityHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-sm);
+}
+
+.checkboxGroupContainer {
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  padding: var(--spacing-sm);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+}
+
+.checkboxColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.checkboxColumn strong {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--spacing-xs);
+}
+
+.privacyNote {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  margin-top: var(--spacing-md);
+  text-align: center;
+}
+
+.submitButtonInscripcion {
+  /* Hereda .button */
+  width: 100%; /* Hacer el botón de submit más prominente */
+  max-width: 300px; /* Limitar ancho máximo */
+  margin: 0 auto; /* Centrar */
+}
+
+/* FAQ Section */
+.faqSectionInscripcion {
+  margin-bottom: var(--spacing-xl);
+}
+
+.faqListInscripcion {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.faqItemInscripcion {
+  background-color: var(--color-background);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.faqItemInscripcion h4 {
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.faqItemInscripcion p {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+/* CTA Final */
+.ctaFinalInscripcion {
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-surface);
+}
+
+.ctaFinalInscripcion h2 {
+  font-size: var(--font-size-xl);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.ctaFinalInscripcion p {
+  margin-top: var(--spacing-md);
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+}
+
+.enlaceContactoFinal {
+  composes: enlaceSecundario;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.enlaceContactoFinal span {
+  font-size: 1.2em;
+}
+
+
+/* Responsive adicional para Inscripción */
+@media (max-width: 768px) {
+  .ligasDisponiblesGrid {
+     grid-template-columns: 1fr; /* Una columna en móvil */
+  }
+  .inscripcionPasosGrid {
+     grid-template-columns: 1fr;
+  }
+  .beneficiosList {
+     grid-template-columns: 1fr;
+  }
+  .checkboxGroupContainer {
+     flex-direction: column;
+     gap: var(--spacing-md);
+  }
 } 

@@ -1,0 +1,245 @@
+/* src/pages/Torneos/Torneos.module.css */
+
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* background-color: var(--color-surface); */ /* Eliminado, hereda blanco */
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo para el contenido del cuadro, puede necesitar ajuste */
+    margin: 0 auto;
+}
+
+.profileCard {
+    padding: 30px;
+    border-radius: 10px;
+    /* Sin background-color ni box-shadow para usar el del .profileContainer */
+    text-align: left; /* Por defecto, el contenido dentro de la card se alinea a la izquierda */
+}
+
+.pageTitle {
+    color: var(--color-text); /* Hereda global, oscuro */
+    /* font-size: 2.2em; */ /* Eliminado */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.pageDescription {
+    color: var(--color-text-light); /* Gris medio */
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.subPageTitle {
+  /* font-size: 1.8em; */ /* Eliminado */
+  color: var(--color-text); /* Título oscuro */
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-border); /* Borde claro */
+  text-align: center;
+}
+
+/* Filtros */
+.filtrosContainerCuadros {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.filtroItemCuadro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 300px; /* Ancho para el selector */
+  max-width: 500px;
+}
+
+.filtroItemCuadro label {
+  font-weight: bold;
+  font-size: 0.95em;
+  color: var(--color-text-light); /* Gris medio */
+  font-family: var(--font-family-secondary);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.filtroItemCuadro select {
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  font-size: 1em;
+}
+
+/* Estilos para el Cuadro del Torneo */
+.cuadroTorneoContainer {
+  width: 100%;
+  overflow-x: auto; /* Permite scroll horizontal para el cuadro */
+  padding-bottom: 20px; /* Espacio por si hay scroll */
+}
+
+.rondasContainer {
+  display: flex;
+  flex-direction: row; /* Rondas en horizontal */
+  gap: 20px; /* Espacio entre rondas */
+  min-width: fit-content; /* Para que el scroll horizontal funcione bien */
+}
+
+.rondaColumna {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+  /* background-color: rgba(0,0,0,0.02); */ /* Quitar fondo sutil */
+  border-radius: var(--border-radius-md);
+  /* border: 1px solid var(--color-border); */ /* Opcional: añadir borde a columna */
+}
+
+.rondaTitulo {
+  /* font-size: 1.3em; */ /* Eliminado */
+  color: var(--color-primary); /* Título de ronda morado */
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.partidosEnRondaContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.partidoCardTorneo {
+  background-color: var(--color-background); /* Fondo blanco */
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  padding: 12px;
+  font-size: 0.9em;
+  box-shadow: var(--shadow-sm);
+}
+
+.equipoInfoTorneo {
+  display: flex;
+  flex-direction: column; /* Equipos uno encima del otro */
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.equipoInfoTorneo span:not(.vs) {
+  padding: 3px 0;
+}
+
+.vs {
+  text-align: center;
+  color: var(--color-text-light);
+  font-weight: bold;
+  font-size: 0.8em;
+  margin: 2px 0;
+}
+
+.ganador {
+  font-weight: bold;
+  color: var(--color-primary); /* Destacar al ganador */
+}
+
+.equipoPorDefinir {
+  font-style: italic;
+  color: var(--color-text-light); /* Gris medio */
+}
+
+.resultadoTorneo {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.95em;
+  color: var(--color-text); /* Texto resultado oscuro */
+}
+
+.statusPartidoTorneo {
+  text-align: center;
+  color: var(--color-text-light); /* Gris medio */
+  font-size: 0.85em;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Clases de estado para el borde - mantener colores */
+.statusJugado {
+  border-left: 4px solid var(--color-secondary); /* Morado medio */
+}
+
+.statusPendiente {
+  border-left: 4px solid var(--color-orange-accent); /* Naranja como pendiente */
+}
+
+.statusPorDefinir {
+  border-left: 4px solid var(--color-text-light); /* Gris medio */
+}
+
+/* Nueva clase para partidos cancelados */
+.statusCancelado {
+  border-left: 4px solid #dc3545; /* Rojo para cancelado */
+  opacity: 0.8;
+}
+
+.infoMessage {
+  text-align: center;
+  color: var(--color-text-light); /* Gris medio */
+  padding: 20px;
+  background-color: var(--color-surface); /* Fondo gris claro */
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Estilos específicos para la página de Resultados de Torneos */
+.filtrosResultadosTorneo {
+  /* Podríamos añadir estilos específicos para los filtros de esta página si es necesario */
+  /* Por ejemplo, para que se distribuyan diferente */
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */ /* si queremos que se ajusten en varias líneas */
+}
+
+.resultadosContainerTorneo {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacio entre tarjetas de resultado */
+}
+
+.resultadoCard {
+  /* Hereda mucho de .partidoCardTorneo */
+  /* Podemos añadir o sobrescribir estilos aquí */
+  /* Por ejemplo, un borde diferente o padding específico */
+   box-shadow: var(--shadow-md); /* Una sombra un poco más pronunciada */
+}
+
+.metaPartidoTorneo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  color: var(--color-text-light);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Ajustes responsivos para filtros de resultados (si son diferentes a los de cuadros) */
+/* @media (max-width: 768px) {
+  .filtrosResultadosTorneo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filtrosResultadosTorneo .filtroItemCuadro {
+    min-width: 100%;
+  }
+} */ 

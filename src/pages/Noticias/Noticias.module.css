@@ -10,9 +10,9 @@
 }
 
 .profileCard {
-  background: var(--color-background);
+  /* background: var(--color-background); */ /* Eliminado */
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
+  /* box-shadow: var(--shadow-sm); */ /* Eliminado */
   padding: 32px;
 }
 
@@ -85,7 +85,7 @@
   background: var(--color-background);
   border-radius: 12px; /* Mantener o ajustar a var(--border-radius-xl) */
   overflow: hidden;
-  box-shadow: var(--shadow-md); /* Usar variable */
+  box-shadow: var(--shadow-sm); /* Usar variable */
 }
 
 .imagenDestacada {

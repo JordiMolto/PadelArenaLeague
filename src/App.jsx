@@ -24,6 +24,8 @@ import LigasEquipos from './pages/Ligas/LigasEquipos.jsx';
 import LigasEncuentros from './pages/Ligas/LigasEncuentros.jsx';
 import LigasResultados from './pages/Ligas/LigasResultados.jsx';
 import PlaceholderPage from './pages/PlaceholderPage.jsx';
+import TorneosCuadros from './pages/Torneos/TorneosCuadros.jsx';
+import TorneosResultados from './pages/Torneos/TorneosResultados.jsx';
 
 import './styles/global.css';
 
@@ -53,8 +55,8 @@ function App() {
                 Si quieres una página general de torneos, puedes descomentarla y crear su componente. 
                 O podrías hacer que /torneos redirija a /torneos/inscripcion si lo prefieres. */}
             <Route path="torneos/inscripcion" element={<PlaceholderPage title="Inscripción a Torneos" />} />
-            <Route path="torneos/cuadros" element={<PlaceholderPage title="Cuadros y Partidos de Torneos" />} />
-            <Route path="torneos/resultados" element={<PlaceholderPage title="Resultados de Torneos" />} />
+            <Route path="torneos/cuadros" element={<TorneosCuadros />} />
+            <Route path="torneos/resultados" element={<TorneosResultados />} />
             {/* Considera una ruta para /torneos/:torneoId si vas a tener detalles de torneo */}
 
             {/* Otras rutas existentes */}
