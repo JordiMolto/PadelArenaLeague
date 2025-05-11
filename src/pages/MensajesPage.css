@@ -1,0 +1,27 @@
+/* src/pages/MensajesPage.css */
+.mensajes-page-container {
+  max-width: 900px; /* Ancho máximo para la página de mensajes */
+  margin: 20px auto; /* Centrado y con margen superior/inferior */
+  padding: 20px;
+  background-color: #f9f9f9; /* Un fondo ligeramente diferente para la página */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Si en el futuro tenemos una sidebar y un área de contenido principal */
+/*
+.mensajes-layout {
+  display: flex;
+}
+
+.sidebar-lista-partidos {
+  width: 300px; 
+  margin-right: 20px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
+}
+
+.area-conversacion-principal {
+  flex-grow: 1;
+}
+*/ 

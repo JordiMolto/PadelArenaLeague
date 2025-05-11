@@ -5,7 +5,7 @@ const PlaceholderPage = ({ title }) => {
   return (
     <div className={styles.placeholderContainer}>
       <div className={styles.placeholderCard}>
-        <h1 className={styles.pageTitle}>{title || 'Página en Construcción'}</h1>
+        <h2 className={styles.pageTitle}>{title || 'Página en Construcción'}</h2>
         <p className={styles.pageDescription}>
           Esta sección estará disponible próximamente. ¡Gracias por tu paciencia!
         </p>

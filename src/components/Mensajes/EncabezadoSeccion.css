@@ -1,0 +1,18 @@
+/* src/components/Mensajes/EncabezadoSeccion.css */
+.encabezado-seccion {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.encabezado-seccion h1 {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.encabezado-seccion p {
+  font-size: 1.1em;
+  color: #555;
+  max-width: 700px; /* Para que el subtítulo no sea demasiado ancho */
+} 

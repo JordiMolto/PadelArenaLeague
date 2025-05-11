@@ -45,7 +45,7 @@ const LigaDetail = () => {
     <div className={styles.profileContainer}>
       <div className={styles.container}>
         <div className={styles.profileCard}>
-          <h1 className={styles.pageTitle}>{ligaInfo.nombre}</h1>
+          <h2 className={styles.pageTitle}>{ligaInfo.nombre}</h2>
           <p className={styles.pageDescription}>{ligaInfo.descripcion}</p>
 
           {/* Aquí irían las subsecciones: Clasificación, Partidos, Equipos */}

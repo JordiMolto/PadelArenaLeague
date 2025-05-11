@@ -1322,7 +1322,6 @@
 .comoFuncionaInscripcion {
   text-align: center;
   padding: var(--spacing-xl) 0;
-  background-color: var(--color-surface);
   margin-bottom: var(--spacing-xl);
 }
 

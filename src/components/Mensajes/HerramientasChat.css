@@ -1,0 +1,49 @@
+/* src/components/Mensajes/HerramientasChat.css */
+.herramientas-chat-container {
+  display: flex;
+  justify-content: space-around; /* O flex-start si prefieres alineados a la izquierda */
+  align-items: center;
+  padding: 10px 15px;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0; /* Puede que solo necesites borde superior o inferior dependiendo de dónde se coloque */
+  background-color: #f8f9fa;
+  margin-bottom: 10px; /* Espacio antes de la lista de mensajes o del pie de chat */
+}
+
+.boton-herramienta {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Espacio entre el icono y el texto */
+}
+
+.boton-herramienta:hover {
+  opacity: 0.85;
+}
+
+.boton-herramienta:active {
+  transform: scale(0.98);
+}
+
+.boton-herramienta.morado {
+  background-color: #8A2BE2; /* Morado institucional */
+  color: white;
+}
+
+.boton-herramienta.rojo {
+  background-color: #dc3545; /* Rojo para incidencias */
+  color: white;
+}
+
+.boton-herramienta:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+} 

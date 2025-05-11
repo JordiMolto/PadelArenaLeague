@@ -1,0 +1,17 @@
+/* src/components/Mensajes/ListaMensajesChat.css */
+.lista-mensajes-chat-container {
+  flex-grow: 1; /* Para que ocupe el espacio disponible en el flex container de AreaConversacion */
+  overflow-y: auto; /* Permite scroll vertical si los mensajes exceden la altura */
+  padding: 10px 15px; /* Espaciado interno */
+  border: 1px solid #f0f0f0;
+  background-color: #fff; /* Fondo del área de mensajes */
+  min-height: 200px; /* Una altura mínima para que se vea el contenedor */
+  max-height: 500px; /* Una altura máxima para evitar que sea demasiado grande */
+}
+
+.no-mensajes-chat {
+  text-align: center;
+  color: #777;
+  padding: 30px;
+  font-style: italic;
+} 

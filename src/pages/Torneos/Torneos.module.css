@@ -47,49 +47,95 @@
   text-align: center;
 }
 
-/* Filtros */
-.filtrosContainerCuadros {
+/* Filtros para Cuadros y Resultados */
+.filtrosContainerCuadros, .filtrosContainerResultados {
   display: flex;
-  justify-content: center;
+  gap: var(--spacing-md);
   margin-bottom: 30px;
+  flex-wrap: wrap; 
+  justify-content: center; 
 }
 
-.filtroItemCuadro {
+.filtroItemCuadro, .filtroItemTorneo {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-width: 300px; /* Ancho para el selector */
-  max-width: 500px;
+  flex: 1 1 180px; /* Ajustado para más filtros */
+  min-width: 180px;
+  max-width: 280px; 
 }
 
-.filtroItemCuadro label {
-  font-weight: bold;
-  font-size: 0.95em;
-  color: var(--color-text-light); /* Gris medio */
+.filtroItemTorneoFullWidth { /* Para el buscador en Resultados */
+  composes: filtroItemTorneo;
+  flex-basis: 100%;
+  max-width: none;
+}
+
+.filtroItemCuadro label, .filtroItemTorneo label {
+  font-weight: 500; 
+  font-size: 0.9em;
+  color: var(--color-text-light); 
   font-family: var(--font-family-secondary);
   text-transform: none;
   letter-spacing: normal;
 }
 
-.filtroItemCuadro select {
-  padding: 12px;
+.filtroItemCuadro select,
+.filtroItemCuadro input[type="text"],
+.filtroItemTorneo select,
+.filtroItemTorneo input[type="text"] {
+  padding: 10px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-sm);
-  font-size: 1em;
+  font-size: 0.95em;
+  font-family: var(--font-family-secondary);
 }
 
-/* Estilos para el Cuadro del Torneo */
+/* Avance del Torneo (para Cuadros) */
+.avanceTorneoContainer {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+}
+
+.avanceTorneoTitulo {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary-dark);
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  text-align: left;
+}
+
+.avanceTorneoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.avanceTorneoGrid div {
+  background-color: var(--color-background);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+/* Cuadro Visual del Torneo (Bracket) */
 .cuadroTorneoContainer {
   width: 100%;
-  overflow-x: auto; /* Permite scroll horizontal para el cuadro */
-  padding-bottom: 20px; /* Espacio por si hay scroll */
+  overflow-x: auto; 
+  padding-bottom: 20px; 
+  margin-top: var(--spacing-lg);
 }
 
 .rondasContainer {
   display: flex;
-  flex-direction: row; /* Rondas en horizontal */
-  gap: 20px; /* Espacio entre rondas */
-  min-width: fit-content; /* Para que el scroll horizontal funcione bien */
+  flex-direction: row; 
+  gap: 20px; 
+  min-width: fit-content; 
 }
 
 .rondaColumna {
@@ -172,83 +218,619 @@
   font-style: italic;
 }
 
-/* Clases de estado para el borde - mantener colores */
-.statusJugado {
-  border-left: 4px solid var(--color-secondary); /* Morado medio */
+/* Clases de estado para BRACKET */
+.statusJugadoBracket { border-left: 4px solid var(--color-secondary); }
+.statusPendienteBracket { border-left: 4px solid var(--color-orange-accent); }
+.statusPorDefinirBracket { border-left: 4px solid var(--color-text-light); }
+.statusCanceladoBracket { border-left: 4px solid #dc3545; opacity: 0.8; }
+
+/* Lista de Partidos (Cuadros y Resultados) */
+.listaPartidosContainer, .resultadosTablaContainer {
+  margin-top: var(--spacing-xl);
+}
+.filtrosListaPartidos { /* Específico para filtros DENTRO de la lista en Cuadros */
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+.tablaResponsiveContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: var(--spacing-md);
+}
+.tablaPartidos, .tablaResultados {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+.tablaPartidos th, .tablaPartidos td,
+.tablaResultados th, .tablaResultados td {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  white-space: nowrap;
+}
+.tablaPartidos th, .tablaResultados th {
+  background-color: var(--color-surface);
+  font-weight: 600;
+}
+.tablaPartidos tbody tr:nth-child(odd), .tablaResultados tbody tr:nth-child(odd) { background-color: var(--color-background); }
+.tablaPartidos tbody tr:nth-child(even), .tablaResultados tbody tr:nth-child(even) { background-color: var(--color-surface); }
+.tablaPartidos tbody tr:hover, .tablaResultados tbody tr:hover { background-color: #e9ecef; }
+
+.filaResultado { cursor: pointer; }
+.marcador { font-weight: bold; }
+.statusIcon { margin-right: var(--spacing-xs); }
+
+/* Colores de estado para tabla de resultados */
+.statusFinalizado { color: #155724; /* Verde oscuro */ }
+.statusIncomparecencia { color: #721c24; /* Rojo oscuro */ }
+.statusReprogramado { color: #856404; /* Naranja/marrón oscuro */ }
+.statusPendiente { color: var(--color-text-light); /* Gris */ }
+.statusNoDisputado { color: #721c24; /* Rojo oscuro */ }
+.statusDesconocido { color: #adb5bd; /* Gris más claro */ }
+
+.botonDetallesPartido {
+  composes: button from global;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+.botonDetallesPartido:hover {
+  background-color: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
 }
 
-.statusPendiente {
-  border-left: 4px solid var(--color-orange-accent); /* Naranja como pendiente */
+/* Ganadores del Torneo (Resultados) */
+.ganadoresTorneoContainer {
+  background-color: var(--color-primary-dark);
+  color: var(--color-background);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+.subPageTitleSmall { /* Para títulos dentro de secciones como Ganadores */
+  font-size: var(--font-size-xl);
+  color: var(--color-orange-accent);
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-primary); /* Más sutil */
+  padding-bottom: var(--spacing-sm);
+}
+.podioGrid {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+.podioItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+}
+.podioIcon { font-size: 2.5em; margin-bottom: var(--spacing-xs); }
+.podioNombre { font-size: var(--font-size-lg); font-weight: 600;}
+.podioRol { font-size: var(--font-size-sm); opacity: 0.8; }
+.podioItemSemifinalistas {
+  composes: podioItem;
+  flex-basis: 100%; /* Ocupar todo el ancho para semis */
+  margin-top: var(--spacing-sm);
+}
+.podioStats {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-primary);
 }
 
-.statusPorDefinir {
-  border-left: 4px solid var(--color-text-light); /* Gris medio */
+/* Acciones Interactivas (Cuadros) */
+.accionesTorneoContainer {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 2px dashed var(--color-primary);
+  text-align: center;
+}
+.accionesTitulo {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+.accionesBotonesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+.accionButton {
+  composes: button from global;
+  background-color: var(--color-orange-accent);
+  border-color: var(--color-orange-accent);
+  color: var(--color-text); /* Mejor contraste */
+}
+.accionButton:hover {
+  background-color: var(--color-orange-accent-dark);
+  border-color: var(--color-orange-accent-dark);
+  color: var(--color-background);
 }
 
-/* Nueva clase para partidos cancelados */
-.statusCancelado {
-  border-left: 4px solid #dc3545; /* Rojo para cancelado */
-  opacity: 0.8;
+/* CTA y Navegación Relacionada (Cuadros y Resultados) */
+.navegacionRelacionada, .navegacionComplementaria {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+.navLink, .navLinkComplementario {
+  composes: button-outline from global; 
 }
 
 .infoMessage {
   text-align: center;
-  color: var(--color-text-light); /* Gris medio */
+  color: var(--color-text-light); 
   padding: 20px;
-  background-color: var(--color-surface); /* Fondo gris claro */
-  border-radius: 5px;
+  background-color: var(--color-surface); 
+  border-radius: var(--border-radius-md);
   margin-top: 20px;
 }
-
-/* Estilos específicos para la página de Resultados de Torneos */
-.filtrosResultadosTorneo {
-  /* Podríamos añadir estilos específicos para los filtros de esta página si es necesario */
-  /* Por ejemplo, para que se distribuyan diferente */
-  /* justify-content: space-between; */
-  /* flex-wrap: wrap; */ /* si queremos que se ajusten en varias líneas */
-}
-
-.resultadosContainerTorneo {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Espacio entre tarjetas de resultado */
-}
-
-.resultadoCard {
-  /* Hereda mucho de .partidoCardTorneo */
-  /* Podemos añadir o sobrescribir estilos aquí */
-  /* Por ejemplo, un borde diferente o padding específico */
-   box-shadow: var(--shadow-md); /* Una sombra un poco más pronunciada */
-}
-
-.metaPartidoTorneo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8em;
-  color: var(--color-text-light);
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--color-border);
-}
-
-/* Ajustes responsivos para filtros de resultados (si son diferentes a los de cuadros) */
-/* @media (max-width: 768px) {
-  .filtrosResultadosTorneo {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .filtrosResultadosTorneo .filtroItemCuadro {
-    min-width: 100%;
-  }
-} */
 
 /* Animación de Fade al Scroll */
 .sectionAnimate {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.sectionAnimate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive general */
+@media (max-width: 768px) {
+  .filtrosContainerCuadros, .filtrosContainerResultados, .filtrosListaPartidos {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filtroItemCuadro, .filtroItemTorneo {
+    max-width: none;
+    flex-basis: auto; /* Resetear base en móvil */
+  }
+  .rondasContainer {
+    /* Podría necesitarse un scroll más agresivo o cambiar layout */
+  }
+  .avanceTorneoGrid, .accionesBotonesGrid, .podioGrid {
+    grid-template-columns: 1fr; 
+  }
+  .podioItemSemifinalistas { flex-basis: auto; }
+} 
+
+/* --- Estilos para la Página de Inscripción a Torneos --- */
+
+.torneoPageContainer {
+  width: 100%;
+}
+
+/* Hero Section Torneo Inscripción */
+.heroTorneoInscripcion {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--color-primary-dark); /* Fondo oscuro para destacar */
+  color: var(--color-background);
+  border-radius: var(--border-radius-lg);
+}
+
+.heroTorneoTitulo {
+  font-size: calc(var(--font-size-xxl) * 1.5); /* Un poco más pequeño que el H1 de home */
+  margin-bottom: var(--spacing-md);
+  color: var(--color-background);
+}
+
+.heroTorneoSubtitulo {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-secondary); /* Un color de acento */
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroTorneoInfoBadges {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  flex-wrap: wrap;
+}
+
+.heroTorneoInfoBadges span {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+}
+
+.heroTorneoCTA {
+  /* Hereda de .button global, podemos ajustar */
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-orange-accent);
+  border-color: var(--color-orange-accent);
+  color: var(--color-text); /* Texto oscuro para mejor contraste sobre naranja */
+}
+.heroTorneoCTA:hover {
+  background-color: var(--color-orange-accent-dark);
+  border-color: var(--color-orange-accent-dark);
+  color: var(--color-text);
+}
+
+/* Título de Sección General para Página de Inscripción Torneo */
+.sectionTitleTorneo {
+  font-size: var(--font-size-xl); /* Más pequeño que subPageTitle */
+  color: var(--color-primary-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--color-secondary);
+  position: relative;
+}
+
+.sectionTitleTorneo::after { /* Detalle adicional */
+  content: '';
+  position: absolute;
+  bottom: -2px; /* Para que esté sobre el borde */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--color-orange-accent);
+}
+
+
+/* Resumen del Torneo */
+.resumenTorneoSection {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+}
+
+.resumenTorneoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.resumenItem {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px dotted var(--color-border);
+}
+.resumenItem:last-child {
+  border-bottom: none;
+}
+
+.resumenItem strong {
+  color: var(--color-primary-dark);
+  margin-right: var(--spacing-xs);
+}
+
+.resumenItemFull {
+  composes: resumenItem;
+  grid-column: 1 / -1; /* Ocupar todo el ancho */
+}
+
+.linkReglamento {
+  display: inline-block;
+  margin-top: var(--spacing-sm);
+  color: var(--color-orange-accent);
+  font-weight: 500;
+}
+.linkReglamento:hover {
+  text-decoration: underline;
+  color: var(--color-orange-accent-dark);
+}
+
+/* Cómo Funciona (Torneo) */
+.comoFuncionaTorneo {
+  padding: var(--spacing-xl) 0;
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.pasosTorneoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pasoTorneoItem {
+  /* Estilos similares a .pasoItem de Ligas si se quiere consistencia */
+  padding: var(--spacing-md);
+  background-color: var(--color-background);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.pasoTorneoIcon {
+  font-size: 40px;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.pasoTorneoItem h4 {
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pasoTorneoItem p {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+}
+
+.ctaComoFuncionaTorneo {
+  margin-top: var(--spacing-lg);
+}
+
+.linkCuadroTorneo {
+  /* Hereda de button-outline global */
+  font-size: var(--font-size-sm);
+}
+
+/* Formulario de Inscripción Torneo */
+.formularioTorneoSection {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.formTorneo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.infoPreseleccion {
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+  background-color: var(--color-background);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  border-left: 4px solid var(--color-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.formGroupTorneo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.formGroupTorneo label {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+/* .formGroupTorneo input[type="text"],
+.formGroupTorneo input[type="email"],
+.formGroupTorneo textarea,
+.formGroupTorneo select {
+  composes: formInput from "../Ligas/Ligas.module.css"; 
+  
+   padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-md); 
+} */
+
+.formRowTorneo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.checkboxContainerTorneo {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.checkboxContainerTorneo label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: normal;
+}
+
+.checkboxContainerTorneo input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--color-primary);
+}
+
+.formGroupTorneoCheckbox {
+  composes: formGroupTorneo;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.formGroupTorneoCheckbox input[type="checkbox"] {
+  width: auto;
+  height: 1.2em;
+  accent-color: var(--color-primary);
+}
+
+.formGroupTorneoCheckbox label {
+  font-weight: normal;
+  font-size: var(--font-size-sm);
+}
+
+.formGroupTorneoCheckbox a {
+  color: var(--color-orange-accent);
+}
+.formGroupTorneoCheckbox a:hover {
+  text-decoration: underline;
+}
+
+.formActionsTorneo {
+  text-align: center;
+  margin-top: var(--spacing-md);
+}
+
+.submitButtonTorneo {
+  /* Hereda de .button global */
+  width: 100%;
+  max-width: 350px;
+}
+
+/* FAQ Torneo */
+.faqTorneoSection {
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) 0;
+}
+
+.faqListTorneo {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.faqItemTorneo {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden; /* Para la animación de la respuesta */
+}
+
+.faqQuestionTorneo {
+  width: 100%;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.faqItemTorneo.active .faqQuestionTorneo {
+  color: var(--color-primary);
+}
+
+.faqIconTorneo {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.faqItemTorneo.active .faqIconTorneo {
+  transform: rotate(45deg);
+}
+
+.faqAnswerTorneo {
+  padding: 0 var(--spacing-md) var(--spacing-md) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Mejor transición */
+}
+
+.faqItemTorneo.active .faqAnswerTorneo {
+  max-height: 300px; /* Altura suficiente para el contenido */
+  padding-top: var(--spacing-xs);
+  padding-bottom: var(--spacing-md);
+}
+
+
+/* CTA Final Torneo */
+.ctaFinalTorneo {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+}
+
+.ctaFinalTorneoTitulo {
+  font-size: var(--font-size-xl);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.dudasContactoTorneo {
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+}
+
+.dudasContactoTorneo a {
+  color: var(--color-orange-accent);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.dudasContactoTorneo a:hover {
+  text-decoration: underline;
+  color: var(--color-orange-accent-dark);
+}
+
+/* Responsive para Inscripción Torneo */
+@media (max-width: 768px) {
+  .heroTorneoTitulo {
+    font-size: calc(var(--font-size-xxl) * 1.2);
+  }
+  .heroTorneoSubtitulo {
+    font-size: var(--font-size-md);
+  }
+  .formRowTorneo {
+    grid-template-columns: 1fr;
+  }
+  .resumenTorneoGrid {
+    grid-template-columns: 1fr;
+  }
+  .pasosTorneoGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectionTitleTorneo {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Asegurarse de que las animaciones de entrada funcionen */
+.sectionAnimate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
 
 .sectionAnimate.visible {

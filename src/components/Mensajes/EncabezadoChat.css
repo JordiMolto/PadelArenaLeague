@@ -1,0 +1,105 @@
+/* src/components/Mensajes/EncabezadoChat.css */
+.encabezado-chat-container {
+  background-color: #f0f0f0; /* Un gris claro, similar al de WhatsApp Web o Telegram */
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky; /* Para que se quede fijo arriba del área de mensajes */
+  top: 0;
+  z-index: 10;
+}
+
+.boton-volver-chat {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: #555;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.boton-volver-chat:hover {
+  color: #8A2BE2; /* Morado institucional */
+}
+
+.info-partido-chat {
+  flex-grow: 1;
+}
+
+.info-partido-chat h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.info-partido-chat p {
+  margin: 0;
+  font-size: 0.85em;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alerta-24h {
+  color: #dc3545; /* Rojo de alerta */
+  font-weight: bold;
+  margin-left: 10px;
+  font-size: 0.9em; /* Un poco más pequeño que el texto normal del párrafo */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  background-color: #f8d7da; /* Fondo rojo claro */
+  border: 1px solid #f5c6cb; /* Borde rojo más claro */
+  border-radius: 4px;
+}
+
+.alerta-24h .svg-inline--fa {
+  font-size: 0.9em; /* Ajustar tamaño del icono si es necesario */
+}
+
+.encabezado-chat-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3em;
+  color: #343a40;
+}
+
+.detalles-partido-chat p {
+  margin: 5px 0;
+  font-size: 0.95em;
+  color: #495057;
+}
+
+.detalles-partido-chat strong {
+  color: #212529;
+}
+
+.estado-label {
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Reutilizamos colores similares a TarjetaPartido para consistencia, 
+   pero con un prefijo 'estado-chat-' para evitar conflictos si los estilos son globales */
+.estado-chat-pendiente span {
+  background-color: #ffc107; 
+  color: #333;
+}
+
+.estado-chat-reprogramado span {
+  background-color: #17a2b8;
+}
+
+.estado-chat-finalizado span {
+  background-color: #28a745;
+}
+
+.estado-chat-incomparecencia-reportada span {
+  background-color: #dc3545;
+} 

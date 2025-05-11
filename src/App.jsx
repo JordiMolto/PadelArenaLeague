@@ -4,7 +4,7 @@ import Layout from './components/Layout/Layout';
 import Home from './pages/Home/Home';
 import Auth from './pages/Auth/Auth';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Chat from './pages/Chat/Chat';
+import MensajesPage from './pages/MensajesPage';
 import Profile from './pages/Profile/Profile';
 import Reglamento from './pages/Reglamento/Reglamento';
 import Galeria from './pages/Galeria/Galeria';
@@ -26,6 +26,7 @@ import LigasResultados from './pages/Ligas/LigasResultados.jsx';
 import PlaceholderPage from './pages/PlaceholderPage.jsx';
 import TorneosCuadros from './pages/Torneos/TorneosCuadros.jsx';
 import TorneosResultados from './pages/Torneos/TorneosResultados.jsx';
+import TorneoInscripcion from './pages/Torneos/TorneoInscripcion.jsx';
 
 import './styles/global.css';
 
@@ -38,7 +39,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="auth" element={<Auth />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="chat" element={<Chat />} />
+            <Route path="chat" element={<MensajesPage />} />
             <Route path="profile" element={<Profile />} />
             
             {/* Rutas de Ligas */}
@@ -54,7 +55,7 @@ function App() {
             {/* La línea anterior para /torneos la comento porque "Inscripción Torneo" es ahora el principal. 
                 Si quieres una página general de torneos, puedes descomentarla y crear su componente. 
                 O podrías hacer que /torneos redirija a /torneos/inscripcion si lo prefieres. */}
-            <Route path="torneos/inscripcion" element={<PlaceholderPage title="Inscripción a Torneos" />} />
+            <Route path="torneos/inscripcion" element={<TorneoInscripcion />} />
             <Route path="torneos/cuadros" element={<TorneosCuadros />} />
             <Route path="torneos/resultados" element={<TorneosResultados />} />
             {/* Considera una ruta para /torneos/:torneoId si vas a tener detalles de torneo */}

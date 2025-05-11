@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat+Brush&family=Poppins:wght@300;400;500;700&family=Roboto:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat+Brush&family=Grandstander&family=Poppins:wght@300;400;500;700&family=Roboto:wght@400;500;700&display=swap");
 @import "./variables.css";
 
 * {
@@ -35,10 +35,10 @@ h6 {
 }
 
 h1 {
-  font-size: calc(var(--font-size-xxl) * 2.4);
+  font-size: calc(var(--font-size-xxl) * 2);
 }
 h2 {
-  font-size: calc(var(--font-size-xl) * 2);
+  font-size: calc(var(--font-size-xl) * 1.8);
 }
 h3 {
   font-size: calc(var(--font-size-lg) * 1.6);

@@ -1,0 +1,99 @@
+/* src/components/Mensajes/TarjetaPartido.css */
+.tarjeta-partido {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tarjeta-partido:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-partido.urgente {
+  border-left: 5px solid #8A2BE2; /* Morado institucional para urgentes */
+}
+
+.tarjeta-partido-info {
+  flex-grow: 1;
+}
+
+.info-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.rival {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
+}
+
+.jornada {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.estado-partido {
+  margin-bottom: 8px;
+}
+
+.estado-partido span {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #fff;
+}
+
+/* Colores de ejemplo para los estados */
+.estado-pendiente span {
+  background-color: #ffc107; /* Amarillo */
+  color: #333;
+}
+
+.estado-reprogramado span {
+  background-color: #17a2b8; /* Azul info */
+}
+
+.estado-finalizado span {
+  background-color: #28a745; /* Verde éxito */
+}
+
+.estado-incomparecencia-reportada span {
+  background-color: #dc3545; /* Rojo peligro */
+}
+
+.ultimo-mensaje p {
+  font-size: 0.95em;
+  color: #555;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px; /* Ajustar según sea necesario */
+}
+
+.tarjeta-partido-acciones {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.icono-alerta {
+  font-size: 1.5em;
+  color: #dc3545; /* Rojo para la alerta */
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+} 

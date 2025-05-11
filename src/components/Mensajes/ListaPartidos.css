@@ -1,0 +1,11 @@
+/* src/components/Mensajes/ListaPartidos.css */
+.lista-partidos {
+  /* Podríamos usar display: grid si queremos varias columnas en el futuro */
+}
+
+.no-partidos-mensaje {
+  font-size: 1.2em;
+  color: #777;
+  text-align: center;
+  padding: 40px 0;
+} 

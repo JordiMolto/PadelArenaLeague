@@ -1,0 +1,72 @@
+/* src/components/Modales/ModalGenerico.css */
+.modal-overlay {
+  position: fixed; /* Se superpone a todo */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  min-width: 320px; /* Ancho mínimo */
+  max-width: 600px; /* Ancho máximo */
+  width: auto;      /* Se ajusta al contenido hasta el max-width */
+  max-height: 90vh; /* Altura máxima para evitar que sea demasiado alto */
+  overflow-y: auto; /* Scroll si el contenido es muy alto */
+  position: relative;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 1.8em;
+  cursor: pointer;
+  color: #777;
+  padding: 0 5px; /* Para que sea más fácil hacer clic */
+  line-height: 1;
+}
+
+.modal-close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  /* El contenido específico se renderiza aquí */
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+} 

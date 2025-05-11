@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { Link } from 'react-router-dom'; // Asegurarse de importar Link
 import styles from './Torneos.module.css'; // Reutilizaremos estilos
 
 // Hook useElementOnScreen 
@@ -20,91 +21,141 @@ const useElementOnScreen = (options) => {
   return [containerRef, isVisible];
 };
 
-// --- Mock Data ---
+// --- Mock Data Ampliado ---
+const mockCategorias = ['Todas', 'Masculino', 'Femenino', 'Mixto'];
+const mockFormatos = ['Todos', 'Individual', 'Dobles', 'Equipos'];
+const mockEstadosPartido = ['Todos', 'Finalizado', 'Incomparecencia', 'Reprogramado', 'Pendiente'];
+
 const mockTorneos = [
-  { id: 'torneo-verano-2024', nombre: 'Torneo de Verano 2024 (Eliminatoria)', tipo: 'Eliminatoria Directa', categoria: 'Absoluta Masculina', totalRondas: 4, fechaInicio: '2024-08-01' },
-  { id: 'torneo-invierno-femenino', nombre: 'Torneo Invierno Femenino (Liguilla + KO)', tipo: 'Liguilla + Eliminatoria', categoria: 'Absoluta Femenina', totalRondas: 3, fechaInicio: '2024-11-15' },
-  { id: 'torneo-express-mixto', nombre: 'Torneo Express Mixto Fin de Semana', tipo: 'Express', categoria: 'Mixta', totalRondas: 3, fechaInicio: '2024-09-07' },
+  {
+    id: 'torneo-verano-2024', 
+    nombre: 'Torneo de Verano 2024', 
+    tipo: 'Eliminatoria Directa', 
+    categoria: 'Masculino', 
+    formato: 'Dobles', 
+    totalRondas: 4, 
+    fechaInicio: '2024-08-01',
+    ganador: { nombre: 'Pareja Alfa', imagenUrl: '' },
+    subcampeon: { nombre: 'Los Invencibles', imagenUrl: '' },
+    semifinalistas: ['Pareja Gamma', 'Equipo Sorpresa'],
+    partidosDisputados: 7,
+    porcentajeParticipacion: 87.5 
+  },
+  {
+    id: 'torneo-invierno-femenino',
+    nombre: 'Torneo Invierno Femenino',
+    tipo: 'Liguilla + Eliminatoria',
+    categoria: 'Femenino',
+    formato: 'Dobles',
+    totalRondas: 3, 
+    fechaInicio: '2024-11-15',
+    ganador: { nombre: 'Damas de Hierro', imagenUrl: '' },
+    subcampeon: { nombre: 'Reinas de la Pista', imagenUrl: '' },
+    semifinalistas: [],
+    partidosDisputados: 2,
+    porcentajeParticipacion: 100
+  },
+  { id: 'torneo-express-mixto', nombre: 'Torneo Express Mixto', tipo: 'Express', categoria: 'Mixto', formato: 'Dobles', totalRondas: 3, fechaInicio: '2024-09-07' },
 ];
 
-// Partidos de ejemplo (solo los finalizados)
 const mockPartidosPorTorneo = {
   'torneo-verano-2024': {
-    1: [ // Octavos
-      { idPartido: 'tv24-r1-p1', equipoLocal: 'Pareja Alfa', equipoVisitante: 'Pareja Beta', resultado: '6-2, 6-3', ganadorId: 'Pareja Alfa', status: 'Jugado', fecha: '2024-08-02' },
-      { idPartido: 'tv24-r1-p2', equipoLocal: 'Pareja Gamma', equipoVisitante: 'Pareja Delta', resultado: 'Walkover (Gamma)', ganadorId: 'Pareja Gamma', status: 'Jugado', fecha: '2024-08-02' },
-      { idPartido: 'tv24-r1-p3', equipoLocal: 'Los Invencibles', equipoVisitante: 'Maestros del Padel', resultado: '7-6, 6-7, 6-4', ganadorId: 'Los Invencibles', status: 'Jugado', fecha: '2024-08-03' },
-      { idPartido: 'tv24-r1-p5', equipoLocal: 'Equipo X', equipoVisitante: 'Equipo Y', resultado: '6-0, 6-1', ganadorId: 'Equipo X', status: 'Jugado', fecha: '2024-08-03' },
+    1: [ 
+      { idPartido: 'tv24-r1-p1', equipoLocal: 'Pareja Alfa', equipoVisitante: 'Pareja Beta', resultado: '6-2, 6-3', ganadorId: 'Pareja Alfa', status: 'Finalizado', fecha: '2024-08-02', observaciones: 'Sin incidencias.' },
+      { idPartido: 'tv24-r1-p2', equipoLocal: 'Pareja Gamma', equipoVisitante: 'Pareja Delta', resultado: 'W/O Local', ganadorId: 'Pareja Gamma', status: 'Incomparecencia', fecha: '2024-08-02', observaciones: 'Visitante no se presentó.' },
+      { idPartido: 'tv24-r1-p3', equipoLocal: 'Los Invencibles', equipoVisitante: 'Maestros del Padel', resultado: '7-6, 6-7, 6-4', ganadorId: 'Los Invencibles', status: 'Finalizado', fecha: '2024-08-03', observaciones: 'Partido muy igualado.' },
+      { idPartido: 'tv24-r1-p4', equipoLocal: 'Equipo Sorpresa', equipoVisitante: 'Los Favoritos', resultado: '6-0, 6-0', ganadorId: 'Equipo Sorpresa', status: 'Finalizado', fecha: '2024-08-03' },
     ],
-    2: [ // Cuartos
-      { idPartido: 'tv24-r2-p1', equipoLocal: 'Pareja Alfa', equipoVisitante: 'Pareja Gamma', resultado: '6-1, 6-0', ganadorId: 'Pareja Alfa', status: 'Jugado', fecha: '2024-08-05' },
-      // ...más partidos de cuartos jugados
+    2: [ 
+      { idPartido: 'tv24-r2-p1', equipoLocal: 'Pareja Alfa', equipoVisitante: 'Pareja Gamma', resultado: '6-1, 6-0', ganadorId: 'Pareja Alfa', status: 'Finalizado', fecha: '2024-08-10' },
+      { idPartido: 'tv24-r2-p2', equipoLocal: 'Los Invencibles', equipoVisitante: 'Equipo Sorpresa', resultado: null, status: 'Pendiente', fecha: '2024-08-11' }, 
     ],
-    // No incluimos rondas sin partidos jugados o torneos sin resultados
+    3: [ 
+      { idPartido: 'tv24-r3-p1', equipoLocal: 'Pareja Alfa', equipoVisitante: 'Ganador R2P2', resultado: null, status: 'Pendiente', fecha: '2024-08-18' },
+    ],
+    4: [ 
+      { idPartido: 'tv24-r4-p1', equipoLocal: 'Ganador R3P1', equipoVisitante: 'Ganador R3P2', resultado: null, status: 'Pendiente', fecha: '2024-09-01' },
+    ]
   },
   'torneo-invierno-femenino': {
-    1: [ // Fase de grupos (simulada como ronda)
-        { idPartido: 'tif24-fg-p1', equipoLocal: 'Damas de Hierro', equipoVisitante: 'Reinas de la Pista', resultado: '6-3, 6-4', ganadorId: 'Damas de Hierro', status: 'Jugado', fecha: '2024-11-16' },
-        { idPartido: 'tif24-fg-p2', equipoLocal: 'Amazonas Padel', equipoVisitante: 'Guerreras de la Red', resultado: 'Cancelado', ganadorId: null, status: 'Cancelado', fecha: '2024-11-16' },
+    1: [ 
+        { idPartido: 'tif24-fg-p1', equipoLocal: 'Damas de Hierro', equipoVisitante: 'Reinas de la Pista', resultado: '6-3, 6-4', ganadorId: 'Damas de Hierro', status: 'Finalizado', fecha: '2024-11-16' },
+        { idPartido: 'tif24-fg-p2', equipoLocal: 'Amazonas Padel', equipoVisitante: 'Guerreras de la Red', resultado: 'Cancelado', ganadorId: null, status: 'No disputado', fecha: '2024-11-16', observaciones: 'Lluvia intensa.' },
     ]
   }
 };
 // --- Fin Mock Data ---
 
 const TorneosResultados = () => {
-  const [torneos, setTorneos] = useState([]);
+  const [torneosDisponibles, setTorneosDisponibles] = useState([]);
   const [torneoSeleccionadoId, setTorneoSeleccionadoId] = useState('');
-  const [rondaFiltro, setRondaFiltro] = useState('Todas');
-  const [busquedaEquipo, setBusquedaEquipo] = useState('');
+  
+  // Filtros
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
+  const [filtroFormato, setFiltroFormato] = useState('Todos');
+  const [filtroRonda, setFiltroRonda] = useState('Todas');
+  const [filtroEstado, setFiltroEstado] = useState('Todos');
+  const [busqueda, setBusqueda] = useState('');
   const [rondasOptions, setRondasOptions] = useState(['Todas']);
 
-  // Ref para animar el contenedor de resultados
-  const [resultadosRef, isResultadosVisible] = useElementOnScreen({ threshold: 0.05 });
+  // Refs para animación
+  const [filtrosRef, isFiltrosVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [ganadoresRef, isGanadoresVisible] = useElementOnScreen({ threshold: 0.1 });
+  const [resultadosTablaRef, isResultadosTablaVisible] = useElementOnScreen({ threshold: 0.05 });
+  const [accionesRef, isAccionesVisible] = useElementOnScreen({ threshold: 0.1 });
 
+  // Cargar torneos disponibles para el selector principal (filtrado por categoría y formato)
   useEffect(() => {
-    setTorneos([{ id: '', nombre: 'Selecciona un torneo...' }, ...mockTorneos]);
-  }, []);
+    const filtrados = mockTorneos.filter(t => 
+      (filtroCategoria === 'Todas' || t.categoria === filtroCategoria) &&
+      (filtroFormato === 'Todos' || t.formato === filtroFormato)
+    );
+    setTorneosDisponibles([{ id: '', nombre: 'Selecciona un torneo...' }, ...filtrados]);
+    setTorneoSeleccionadoId(''); 
+  }, [filtroCategoria, filtroFormato]);
 
+  // Actualizar opciones de ronda cuando cambia el torneo seleccionado
   useEffect(() => {
     if (torneoSeleccionadoId) {
       const torneoData = mockTorneos.find(t => t.id === torneoSeleccionadoId);
       if (torneoData) {
-        const numRondas = torneoData.totalRondas || 0;
         const options = ['Todas'];
-        for (let i = 1; i <= numRondas; i++) {
+        for (let i = 1; i <= torneoData.totalRondas; i++) {
           options.push(`Ronda ${i}`);
         }
         setRondasOptions(options);
-        setRondaFiltro('Todas'); // Resetear filtro de ronda
       }
     } else {
       setRondasOptions(['Todas']);
-      setRondaFiltro('Todas');
     }
+    setFiltroRonda('Todas'); 
+  }, [torneoSeleccionadoId]);
+
+  const torneoSeleccionadoData = useMemo(() => {
+    return mockTorneos.find(t => t.id === torneoSeleccionadoId);
   }, [torneoSeleccionadoId]);
 
   const resultadosFiltrados = useMemo(() => {
-    if (!torneoSeleccionadoId) return [];
+    if (!torneoSeleccionadoId || !mockPartidosPorTorneo[torneoSeleccionadoId]) return [];
 
     const partidosDelTorneo = mockPartidosPorTorneo[torneoSeleccionadoId];
-    if (!partidosDelTorneo) return [];
-
     let todosLosResultados = [];
+
     Object.keys(partidosDelTorneo).forEach(numRonda => {
       partidosDelTorneo[numRonda].forEach(partido => {
-        if (partido.status === 'Jugado' || partido.status === 'Cancelado') { // Solo partidos con estado final
-          todosLosResultados.push({ ...partido, ronda: parseInt(numRonda, 10) });
-        }
+        todosLosResultados.push({ ...partido, rondaNum: parseInt(numRonda, 10) });
       });
     });
 
-    if (rondaFiltro !== 'Todas') {
-      const numeroRondaSeleccionada = parseInt(rondaFiltro.split(' ')[1], 10);
-      todosLosResultados = todosLosResultados.filter(r => r.ronda === numeroRondaSeleccionada);
+    if (filtroRonda !== 'Todas') {
+      const numeroRondaSel = parseInt(filtroRonda.split(' ')[1], 10);
+      todosLosResultados = todosLosResultados.filter(r => r.rondaNum === numeroRondaSel);
     }
-
-    if (busquedaEquipo) {
-      const busquedaLower = busquedaEquipo.toLowerCase();
+    if (filtroEstado !== 'Todos') {
+      todosLosResultados = todosLosResultados.filter(r => r.status === filtroEstado);
+    }
+    if (busqueda) {
+      const busquedaLower = busqueda.toLowerCase();
       todosLosResultados = todosLosResultados.filter(r =>
         (r.equipoLocal?.toLowerCase().includes(busquedaLower)) ||
         (r.equipoVisitante?.toLowerCase().includes(busquedaLower))
@@ -112,19 +163,36 @@ const TorneosResultados = () => {
     }
     
     return todosLosResultados.sort((a, b) => {
-        if (a.ronda !== b.ronda) return a.ronda - b.ronda;
+        if (a.rondaNum !== b.rondaNum) return a.rondaNum - b.rondaNum;
         if (a.fecha && b.fecha) return new Date(a.fecha) - new Date(b.fecha);
         return 0;
     });
 
-  }, [torneoSeleccionadoId, rondaFiltro, busquedaEquipo]);
+  }, [torneoSeleccionadoId, filtroRonda, filtroEstado, busqueda]);
 
-  const torneoSeleccionadoNombre = mockTorneos.find(t => t.id === torneoSeleccionadoId)?.nombre || '';
+  const handlePartidoClick = (partido) => {
+    alert(
+`Detalle del Partido (ID: ${partido.idPartido}):
+Fecha: ${partido.fecha ? new Date(partido.fecha).toLocaleString() : 'N/A'}
+Ronda: ${partido.rondaNum}
+Local: ${partido.equipoLocal || '-'}
+Visitante: ${partido.equipoVisitante || '-'}
+Resultado: ${partido.resultado || '-'}
+Estado: ${partido.status}
+Observaciones: ${partido.observaciones || 'Ninguna'}
+`
+    );
+  };
 
-  const getStatusClassResultado = (status) => {
-    if (status === 'Jugado') return styles.statusJugado; // Reutilizar clase existente
-    if (status === 'Cancelado') return styles.statusCancelado; // Crear esta clase si no existe
-    return '';
+  const getStatusInfo = (status) => {
+    switch (status) {
+      case 'Finalizado': return { text: 'Finalizado', icon: '✅', className: styles.statusFinalizado };
+      case 'Incomparecencia': return { text: 'Incomp.', icon: '❌', className: styles.statusIncomparecencia };
+      case 'Reprogramado': return { text: 'Reprogr.', icon: '🔁', className: styles.statusReprogramado };
+      case 'Pendiente': return { text: 'Pendiente', icon: '⏳', className: styles.statusPendiente };
+      case 'No disputado': return { text: 'No Jugado', icon: '🚫', className: styles.statusNoDisputado };
+      default: return { text: status || 'N/A', icon: '❔', className: styles.statusDesconocido };
+    }
   };
 
   return (
@@ -133,76 +201,143 @@ const TorneosResultados = () => {
         <div className={styles.profileCard}>
           <h1 className={styles.pageTitle}>Resultados de Torneos</h1>
           <p className={styles.pageDescription}>
-            Consulta los resultados de los partidos finalizados de los torneos.
+            Consulta todos los partidos disputados, ganadores por ronda y el historial de torneos.
           </p>
 
-          <div className={`${styles.filtrosContainerCuadros} ${styles.filtrosResultadosTorneo}`}> {/* Reutilizar y añadir clase específica si es necesario */}
-            <div className={styles.filtroItemCuadro}>
+          {/* --- Filtros --- */}
+          <div 
+            ref={filtrosRef}
+            className={`${styles.filtrosContainerResultados} ${styles.sectionAnimate} ${isFiltrosVisible ? styles.visible : ''}`}
+          >
+            <div className={styles.filtroItemTorneo}>
+              <label htmlFor="filtroCategoriaRes">Categoría:</label>
+              <select id="filtroCategoriaRes" value={filtroCategoria} onChange={(e) => setFiltroCategoria(e.target.value)}>
+                {mockCategorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </select>
+            </div>
+            <div className={styles.filtroItemTorneo}>
+              <label htmlFor="filtroFormatoRes">Formato:</label>
+              <select id="filtroFormatoRes" value={filtroFormato} onChange={(e) => setFiltroFormato(e.target.value)}>
+                {mockFormatos.map(form => <option key={form} value={form}>{form}</option>)}
+              </select>
+            </div>
+            <div className={styles.filtroItemTorneo}>
               <label htmlFor="torneoSelectResultados">Torneo:</label>
-              <select id="torneoSelectResultados" value={torneoSeleccionadoId} onChange={(e) => setTorneoSeleccionadoId(e.target.value)}>
-                {torneos.map(torneo => <option key={torneo.id} value={torneo.id}>{torneo.nombre}</option>)}
+              <select id="torneoSelectResultados" value={torneoSeleccionadoId} onChange={(e) => setTorneoSeleccionadoId(e.target.value)} disabled={torneosDisponibles.length <= 1 && filtroCategoria === 'Todas' && filtroFormato === 'Todos'}>
+                {torneosDisponibles.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
               </select>
             </div>
-            <div className={styles.filtroItemCuadro}>
+             <div className={styles.filtroItemTorneo}>
               <label htmlFor="rondaFiltroResultados">Ronda:</label>
-              <select id="rondaFiltroResultados" value={rondaFiltro} onChange={(e) => setRondaFiltro(e.target.value)} disabled={!torneoSeleccionadoId}>
-                {rondasOptions.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
-                ))}
+              <select id="rondaFiltroResultados" value={filtroRonda} onChange={(e) => setFiltroRonda(e.target.value)} disabled={!torneoSeleccionadoId}>
+                {rondasOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
               </select>
             </div>
-            <div className={styles.filtroItemCuadro}>
-              <label htmlFor="busquedaEquipoResultados">Buscar Equipo:</label>
-              <input
-                type="text"
-                id="busquedaEquipoResultados"
-                placeholder="Nombre del equipo..."
-                value={busquedaEquipo}
-                onChange={(e) => setBusquedaEquipo(e.target.value)}
-                disabled={!torneoSeleccionadoId}
-              />
+            <div className={styles.filtroItemTorneo}>
+              <label htmlFor="filtroEstadoResultados">Estado:</label>
+              <select id="filtroEstadoResultados" value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)} disabled={!torneoSeleccionadoId}>
+                {mockEstadosPartido.map(est => <option key={est} value={est}>{est}</option>)}
+              </select>
+            </div>
+            <div className={styles.filtroItemTorneoFullWidth}>
+              <label htmlFor="busquedaEquipoResultados">Buscar Jugador/Equipo:</label>
+              <input type="text" id="busquedaEquipoResultados" placeholder="Nombre..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} disabled={!torneoSeleccionadoId}/>
             </div>
           </div>
 
+          {/* --- Ganadores del Torneo (Destacado) --- */}
+          {torneoSeleccionadoData && (torneoSeleccionadoData.ganador || torneoSeleccionadoData.subcampeon) && (
+            <div 
+              ref={ganadoresRef}
+              className={`${styles.ganadoresTorneoContainer} ${styles.sectionAnimate} ${isGanadoresVisible ? styles.visible : ''}`}
+            >
+              <h2 className={styles.subPageTitleSmall}>Podio: {torneoSeleccionadoData.nombre}</h2>
+              <div className={styles.podioGrid}>
+                {torneoSeleccionadoData.ganador && (
+                  <div className={styles.podioItem}>
+                    <span className={styles.podioIcon}>🥇</span>
+                    <span className={styles.podioNombre}>{torneoSeleccionadoData.ganador.nombre}</span>
+                    <span className={styles.podioRol}>Campeón</span>
+                  </div>
+                )}
+                {torneoSeleccionadoData.subcampeon && (
+                  <div className={styles.podioItem}>
+                    <span className={styles.podioIcon}>🥈</span>
+                    <span className={styles.podioNombre}>{torneoSeleccionadoData.subcampeon.nombre}</span>
+                    <span className={styles.podioRol}>Subcampeón</span>
+                  </div>
+                )}
+                {torneoSeleccionadoData.semifinalistas && torneoSeleccionadoData.semifinalistas.length > 0 && (
+                  <div className={styles.podioItemSemifinalistas}>
+                    <span className={styles.podioIcon}>🥉</span>
+                    <span className={styles.podioRol}>Semifinalistas: {torneoSeleccionadoData.semifinalistas.join(', ')}</span>
+                  </div>
+                )}
+              </div>
+              <div className={styles.podioStats}>
+                <span>Partidos Disputados: {torneoSeleccionadoData.partidosDisputados || 'N/A'}</span>
+                <span>Participación: {torneoSeleccionadoData.porcentajeParticipacion ? `${torneoSeleccionadoData.porcentajeParticipacion}%` : 'N/A'}</span>
+              </div>
+            </div>
+          )}
+
+          {/* --- Listado de Resultados (Tabla) --- */}
           {torneoSeleccionadoId ? (
             <div 
-              ref={resultadosRef} 
-              className={`${styles.resultadosContainerTorneo} ${styles.sectionAnimate} ${isResultadosVisible ? styles.visible : ''}`}
+              ref={resultadosTablaRef}
+              className={`${styles.resultadosTablaContainer} ${styles.sectionAnimate} ${isResultadosTablaVisible ? styles.visible : ''}`}
             > 
-              <h2 className={styles.subPageTitle}>
-                Resultados: {torneoSeleccionadoNombre}
-                {rondaFiltro !== 'Todas' && ` - ${rondaFiltro}`}
-              </h2>
+              <h2 className={styles.subPageTitle}>Resultados Detallados: {torneoSeleccionadoData?.nombre}</h2>
               {resultadosFiltrados.length > 0 ? (
-                resultadosFiltrados.map(partido => (
-                  <div key={partido.idPartido} className={`${styles.partidoCardTorneo} ${styles.resultadoCard} ${getStatusClassResultado(partido.status)}`}>
-                    <div className={styles.equipoInfoTorneo}>
-                      <span className={partido.ganadorId === partido.equipoLocal ? styles.ganador : ''}>
-                        {partido.equipoLocal || 'Equipo Pendiente'}
-                      </span>
-                      <span className={styles.vs}>vs</span>
-                      <span className={partido.ganadorId === partido.equipoVisitante ? styles.ganador : ''}>
-                        {partido.equipoVisitante || 'Equipo Pendiente'}
-                      </span>
-                    </div>
-                    <div className={styles.resultadoTorneo}>
-                      {partido.resultado || partido.status}
-                    </div>
-                    <div className={styles.metaPartidoTorneo}> 
-                      <span>Ronda {partido.ronda}</span>
-                      {partido.fecha && <span>{new Date(partido.fecha).toLocaleDateString('es-ES')}</span>}
-                    </div>
-                  </div>
-                ))
+                <div className={styles.tablaResponsiveContainer}>
+                    <table className={styles.tablaResultados}>
+                        <thead>
+                            <tr>
+                                <th>Ronda</th>
+                                <th>Fecha</th>
+                                <th>Equipo Local</th>
+                                <th>Resultado</th>
+                                <th>Equipo Visitante</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultadosFiltrados.map(partido => {
+                                const statusInfo = getStatusInfo(partido.status);
+                                return (
+                                    <tr key={partido.idPartido} onClick={() => handlePartidoClick(partido)} className={`${styles.filaResultado} ${statusInfo.className}`}>
+                                        <td>Ronda {partido.rondaNum}</td>
+                                        <td>{partido.fecha ? new Date(partido.fecha).toLocaleDateString() : '-'}</td>
+                                        <td>{partido.equipoLocal || '-'}</td>
+                                        <td className={styles.marcador}>{partido.resultado || '-'}</td>
+                                        <td>{partido.equipoVisitante || '-'}</td>
+                                        <td> <span className={styles.statusIcon}>{statusInfo.icon}</span> {statusInfo.text}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
               ) : (
-                <p className={styles.infoMessage}>
-                  No hay resultados que coincidan con los filtros seleccionados para este torneo.
-                </p>
+                <p className={styles.infoMessage}>No hay resultados que coincidan con los filtros seleccionados.</p>
               )}
             </div>
           ) : (
             <p className={styles.infoMessage}>Selecciona un torneo para ver los resultados.</p>
           )}
+
+          {/* --- CTA y Navegación --- */}
+          {torneoSeleccionadoData && (
+             <div 
+              ref={accionesRef}
+              className={`${styles.navegacionComplementaria} ${styles.sectionAnimate} ${isAccionesVisible ? styles.visible : ''}`}
+            >
+              <Link to={`/torneos/cuadros?torneo=${torneoSeleccionadoId}`} className={styles.navLinkComplementario}> Ver Cuadro del Torneo</Link>
+              <Link to="/torneos/inscripcion" className={styles.navLinkComplementario}>Inscribirse a otro Torneo</Link>
+              {/* <Link to={`/torneos/clasificacion-global`} className={styles.navLinkComplementario}>Clasificación Inter-Torneos</Link> */} 
+            </div>
+          )}
+
         </div>
       </div>
     </div>

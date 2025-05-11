@@ -1,0 +1,81 @@
+/* src/components/Mensajes/MensajeChat.css */
+.mensaje-chat-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.mensaje-chat-burbuja {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  position: relative; /* Para el timestamp y emisor si es necesario */
+  word-wrap: break-word; /* Para que el texto largo no rompa el layout */
+}
+
+/* Mensajes del rival (o por defecto) */
+.mensaje-chat-wrapper.rival {
+  justify-content: flex-start;
+}
+.mensaje-chat-wrapper.rival .mensaje-chat-burbuja {
+  background-color: #e9ecef; /* Gris claro */
+  color: #212529;
+  border-bottom-left-radius: 4px; /* Estilo tipo burbuja */
+}
+
+/* Mensajes propios */
+.mensaje-chat-wrapper.propio {
+  justify-content: flex-end;
+}
+.mensaje-chat-wrapper.propio .mensaje-chat-burbuja {
+  background-color: #8A2BE2; /* Morado institucional */
+  color: white;
+  border-bottom-right-radius: 4px; /* Estilo tipo burbuja */
+}
+
+/* Mensajes del sistema */
+.mensaje-chat-wrapper.sistema {
+  justify-content: center;
+  margin: 15px 0;
+}
+.mensaje-chat-wrapper.sistema .mensaje-chat-burbuja {
+  background-color: #f0f0f0;
+  color: #555;
+  font-size: 0.85em;
+  font-style: italic;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 90%;
+}
+
+.mensaje-emisor {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 4px;
+}
+.mensaje-chat-wrapper.propio .mensaje-emisor {
+  /* Los mensajes propios no suelen mostrar el nombre del emisor */
+  display: none; 
+}
+
+
+.mensaje-texto {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.mensaje-timestamp {
+  font-size: 0.75em;
+  color: #6c757d; /* Gris para el timestamp en mensajes de rival */
+  text-align: right;
+  margin-top: 5px;
+}
+
+.mensaje-chat-wrapper.propio .mensaje-timestamp {
+  color: rgba(255, 255, 255, 0.7); /* Timestamp más claro en mensajes propios */
+}
+
+.mensaje-chat-wrapper.sistema .mensaje-timestamp {
+  display: none; /* Los mensajes de sistema no suelen tener timestamp visible así */
+} 
